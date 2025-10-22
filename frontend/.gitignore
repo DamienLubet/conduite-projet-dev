@@ -1,0 +1,18 @@
+# Frontend node / vite
+node_modules/
+dist/
+.vite/
+
+# Env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Build / cache
+build/
+out/
+
+# Editor / OS
+.vscode/
+.DS_Store

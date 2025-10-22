@@ -1,0 +1,20 @@
+# Backend node
+node_modules/
+dist/
+build/
+
+# Env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs & runtime
+*.log
+logs/
+pids/
+*.pid
+
+# Editor / OS
+.vscode/
+.DS_Store
