@@ -15,7 +15,7 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
-beforeEach(async () => {
+afterEach(async () => {
   await User.deleteMany({});
 });
 

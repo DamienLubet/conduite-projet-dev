@@ -12,7 +12,7 @@ const config = {
   coverageProvider: "v8",
   testEnvironment: "node",
   transform: {},
-
+  setupFiles: ['./jest.setup.js']
 };
 
 export default config;
