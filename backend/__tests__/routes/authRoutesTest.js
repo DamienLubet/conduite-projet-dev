@@ -1,9 +1,9 @@
-import authRouter from "../../src/routes/authRoutes";
 import express from "express";
-import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import request from "supertest";
 import User from "../../src/models/user.js";
+import authRouter from "../../src/routes/authRoutes";
 
 let mongoServer;
 let app;
@@ -14,7 +14,7 @@ beforeAll(async () => {
     await mongoose.connect(uri);
     app = express();
     app.use(express.json());
-    app.use("/auth", authRouter);
+    app.use("/", authRouter);
 });
 
 afterAll(async () => {

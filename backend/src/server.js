@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/auth', authRouter);
+app.use('/api', authRouter);
 
 // Start the server
 app.listen(PORT, HOST, () => {
