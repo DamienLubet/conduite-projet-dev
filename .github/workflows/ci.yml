@@ -18,13 +18,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      # --- BACKEND ---
+      - name: Use Node.js ${{ matrix.node-version }} (backend)
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: ./backend/package-lock.json
 
-      # --- BACKEND TESTS ---
       - name: Install backend dependencies
         working-directory: ./backend
         run: npm ci
@@ -33,7 +34,14 @@ jobs:
         working-directory: ./backend
         run: npm test --if-present
 
-      # --- FRONTEND TESTS ---
+      # --- FRONTEND ---
+      - name: Use Node.js ${{ matrix.node-version }} (frontend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./frontend/package-lock.json
+
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm ci
