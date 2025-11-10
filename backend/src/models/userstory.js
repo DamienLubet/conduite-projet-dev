@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const userStorySchema = new Schema({
-    number: { type: Number, required: true },
+    number: { type: Number },
     title: { type: String, required: true },
     description: { type: String },
     priority: { type: String, enum: ['Low', 'Medium', 'High'], default: 'Medium' },
