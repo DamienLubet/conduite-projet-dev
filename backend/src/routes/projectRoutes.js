@@ -1,6 +1,7 @@
 import express from 'express';
-import { createProject } from '../controllers/projectController.js';
+import { createProject, getProjectbyId } from '../controllers/projectController.js';
 import requireAuth from '../middleware/requireAuth.js';
+
 
 const projectRouter = express.Router();
 
@@ -8,7 +9,7 @@ const projectRouter = express.Router();
 projectRouter.use(requireAuth);
 
 projectRouter.post('/projects', createProject);
-
+projectRouter.get('/projects/:id', getProjectbyId);
 
 // Protect route
 export default projectRouter;
