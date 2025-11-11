@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProject, getProjectbyId } from '../controllers/projectController.js';
+import { createProject, deleteProject, getProjectbyId } from '../controllers/projectController.js';
 import requireAuth from '../middleware/requireAuth.js';
 
 
@@ -10,6 +10,7 @@ projectRouter.use(requireAuth);
 
 projectRouter.post('/projects', createProject);
 projectRouter.get('/projects/:id', getProjectbyId);
+projectRouter.delete('/projects/:id', deleteProject);
 
 // Protect route
 export default projectRouter;
