@@ -3,6 +3,7 @@ import connectDb from "./config/db.js";
 import authRouter from './routes/authRoutes.js';
 import projectRouter from './routes/projectRoutes.js';
 import userRouter from './routes/userRoutes.js';
+import userstoryRouter from './routes/userstoryRoutes.js';
 
 // Load environment variables from .env file
 const PORT = process.env.PORT;
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', authRouter);
 app.use('/api', projectRouter);
 app.use('/api', userRouter);
+app.use('/api', userstoryRouter);
 
 // Start the server
 app.listen(PORT, HOST, () => {
