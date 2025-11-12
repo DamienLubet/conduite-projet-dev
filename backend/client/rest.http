@@ -3,7 +3,7 @@
 ### Authentication USERS
 
 ### Register
-POST http://localhost:8080/api/auth/register
+POST http://0.0.0.0:8080/api/auth/register
 Content-Type: application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: application/json
 }
 
 ### Login
-POST http://localhost:8080/api/auth/login
+POST http://0.0.0.0:8080/api/auth/login
 Content-Type: application/json
 
 {
@@ -21,3 +21,14 @@ Content-Type: application/json
     "password": "password123"
 }
 
+
+## Projects
+
+### Create Project
+POST http://0.0.0.0:8080/api/projects
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDI4N2VjOGI2ZjY1NGU0NDkwMjg2YiIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MjIxMDY0NiwiZXhwIjoxNzYyMjk3MDQ2fQ.3hs7G-j6bliX6udRswlJcxIjBAH6qZyyJPkBIN0rTqg
+
+{
+    "name": "New Project"
+}
