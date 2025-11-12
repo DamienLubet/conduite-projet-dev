@@ -63,9 +63,33 @@ export const deleteProject = async (req, res) => {
         if (!project) {
             return res.status(404).json({ success: false, message: 'Project not found or access denied.' });
         }
-        await Project.deleteOne({ _id: projectId });
+        await Project.deleteOne({ _id: projectId });    // should delete 
         return res.status(200).json({ success: true, message: 'Project deleted successfully.' });
     } catch (error) {
         return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+}
+
+export const editProject = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const projectId = req.params.id;
+        const { name, description } = req.body;
+        const project = await Project.findOne({ _id: projectId, owner: userId });
+        if (!project) {
+            return res.status(404).json({ success: false, message: 'Project not found or access denied.' });
+        }
+        if (name) {
+            const existingProject = await Project.findOne({ name, owner: userId, _id: { $ne: projectId } });
+            if (existingProject) {
+                return res.status(400).json({ success: false, message: 'You already have a project with this name.' });
+            }   
+            project.name = name;
+        }
+        if (description) project.description = description;
+        await project.save();
+        return res.status(200).json({ success: true, message: 'Project updated successfully.' });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Internal server error.' })
     }
 }
