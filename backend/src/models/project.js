@@ -1,4 +1,6 @@
 import { Schema, model } from 'mongoose';
+// Ensure the models are registered for cascading deletes
+import UserStory from './userstory.js';
 
 const projectSchema = new Schema({
     name: { type: String, required: true },

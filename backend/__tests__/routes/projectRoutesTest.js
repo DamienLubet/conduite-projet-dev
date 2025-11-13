@@ -51,6 +51,74 @@ describe("Project Routes", () => {
         });
     });
     
+    describe("GET /projects/:id", () => {
+        it("should retrieve a project by ID", async () => {
+            // First, create a project
+            await request(app)
+                .post("/projects")
+                .set("Authorization", `Bearer ${token}`)
+                .send({ name: "Integration Project" });
+            const projectId = (await Project.findOne({ name: "Integration Project" }))._id;
+            // Now, retrieve the project
+            const getRes = await request(app)
+                .get(`/projects/${projectId}`)
+                .set("Authorization", `Bearer ${token}`);
+
+            expect(getRes.statusCode).toBe(200);
+            expect(getRes.body).toHaveProperty("success", true);
+            expect(getRes.body.project).toHaveProperty("name", "Integration Project");
+        });
+    });
+
+    describe("PUT /projects/:id", () => {
+        it("should update a project by ID", async () => {
+            await request(app)
+                .post("/projects")
+                .set("Authorization", `Bearer ${token}`)
+                .send({ name: "Integration Project" });
+            const projectId = (await Project.findOne({ name: "Integration Project" }))._id;
+
+            const editRes = await request(app)
+                .put(`/projects/${projectId}`)
+                .set("Authorization", `Bearer ${token}`)
+                .send({ name: "Updated Project Name" });
+            expect(editRes.statusCode).toBe(200);
+            expect(editRes.body).toHaveProperty("success", true);
+
+            // Verify update
+            const getRes = await request(app)
+                .get(`/projects/${projectId}`)
+                .set("Authorization", `Bearer ${token}`);
+
+            expect(getRes.body.project).toHaveProperty("name", "Updated Project Name");
+        });
+    });
+
+    describe("DELETE /projects/:id", () => {
+        it("should delete a project by ID", async () => {
+            await request(app)
+                .post("/projects")
+                .set("Authorization", `Bearer ${token}`)
+                .send({ name: "Integration Project" });
+            const projectId = (await Project.findOne({ name: "Integration Project" }))._id;
+
+            const deleteRes = await request(app)
+                .delete(`/projects/${projectId}`)
+                .set("Authorization", `Bearer ${token}`);
+
+            expect(deleteRes.statusCode).toBe(200);
+            expect(deleteRes.body).toHaveProperty("success", true);
+
+            // Verify project is deleted
+            const getRes = await request(app)
+                .get(`/projects/${projectId}`)
+                .set("Authorization", `Bearer ${token}`);
+
+            expect(getRes.statusCode).toBe(404);
+        });
+    });
+
+
     describe("Route protection", () => {
         it("should deny access to create project without token", async () => {
             const res = await request(app)

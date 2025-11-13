@@ -13,5 +13,4 @@ projectRouter.get('/projects/:id', getProjectbyId);
 projectRouter.delete('/projects/:id', deleteProject);
 projectRouter.put('/projects/:id', editProject);
 
-// Protect route
 export default projectRouter;
