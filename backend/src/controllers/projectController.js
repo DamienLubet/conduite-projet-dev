@@ -63,13 +63,14 @@ export const deleteProject = async (req, res) => {
         if (!project) {
             return res.status(404).json({ success: false, message: 'Project not found or access denied.' });
         }
-        await Project.deleteOne({ _id: projectId });    // should delete 
+        await project.deleteOne();
         return res.status(200).json({ success: true, message: 'Project deleted successfully.' });
     } catch (error) {
         return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 }
 
+// Edit project details
 export const editProject = async (req, res) => {
     try {
         const userId = req.user.id;

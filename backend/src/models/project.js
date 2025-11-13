@@ -10,5 +10,13 @@ const projectSchema = new Schema({
     }],
 }, { timestamps: true });
 
+// Cascade delete user stories / tasks / sprints... when a project is deleted
+projectSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+    const projectId = this._id;
+    await this.model('UserStory').deleteMany({ project: projectId });
+    //add other related deletions here (e.g., Tasks, Sprints) if featured in the future
+    next();
+});
+
 const Project = model('Project', projectSchema);
 export default Project;
