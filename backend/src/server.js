@@ -2,6 +2,7 @@ import express from 'express';
 import connectDb from "./config/db.js";
 import authRouter from './routes/authRoutes.js';
 import projectRouter from './routes/projectRoutes.js';
+import taskRouter from './routes/taskRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import userstoryRouter from './routes/userstoryRoutes.js';
 
@@ -22,6 +23,7 @@ app.use('/api', authRouter);
 app.use('/api', projectRouter);
 app.use('/api', userRouter);
 app.use('/api', userstoryRouter);
+app.use('/api', taskRouter);
 
 // Start the server
 app.listen(PORT, HOST, () => {
