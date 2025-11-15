@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { createProject, getProjectbyId } from "../../src/controllers/projectController";
+import { createProject, deleteProject, editProject, getProjectbyId } from "../../src/controllers/projectController";
 import Project from "../../src/models/project.js";
 import User from "../../src/models/user.js";
 
@@ -106,6 +106,80 @@ describe("ProjectController - getProjectbyId", () => {
         expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
             success: true,
             project: expect.objectContaining({ name: "Test Project" }),
+        }));
+    });
+});
+
+describe("ProjectController - deleteProject", () => {
+    let res, req, owner, project;
+
+    beforeEach(async () => {
+        owner = await User.findOne({ email: "owner@example.com" });
+        project = new Project({ name: "Test Project", owner: owner._id });
+        await project.save();        
+    });
+
+    it("should delete project by ID", async () => {
+        req = { params: { id: project._id }, user: { id: owner._id } };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+
+        await deleteProject(req, res);
+        const deletedProject = await Project.findById(project._id);
+        expect(deletedProject).toBeNull();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            success: true,
+            message: "Project deleted successfully."
+        }));
+    });
+});
+
+describe("ProjectController - editProject", () => {
+    let res, req, owner, project;
+
+    beforeEach(async () => {
+        owner = await User.findOne({ email: "owner@example.com" });
+        project = new Project({ name: "Test Project", owner: owner._id });
+        await project.save();
+    });
+
+    it("should edit project details", async () => {
+        req = { params: { id: project._id }, user: { id: owner._id }, body: { name: "Updated Project", description: "Updated Description" } };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+
+        await editProject(req, res);
+
+        const updatedProject = await Project.findById(project._id);
+        expect(updatedProject.name).toBe("Updated Project");
+        expect(updatedProject.description).toBe("Updated Description");
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            success: true,
+            message: "Project updated successfully."
+        }));
+    });
+
+    it("should not edit project to a duplicate name", async () => {
+        const anotherProject = new Project({ name: "Another Project", owner: owner._id });
+        await anotherProject.save();
+
+        req = { params: { id: project._id }, user: { id: owner._id }, body: { name: "Another Project" } };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+
+        await editProject(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            success: false, message: 'You already have a project with this name.'
         }));
     });
 });
