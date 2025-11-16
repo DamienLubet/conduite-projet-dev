@@ -127,7 +127,7 @@ describe("Project Routes", () => {
         });
     });
 
-    describe("POST /projects/;id/members", () => {
+    describe("POST /projects/:id/members", () => {
         it("should add a member to the project", async () => {
             const newUser = await new User({ username: "memberuser", email: "memberuser@example.com", password: "pass" }).save();
             const project = await new Project({ name: "Member Project", owner: user._id, members: [{ userID: user._id, role: "Scrum Master" }] }).save();
