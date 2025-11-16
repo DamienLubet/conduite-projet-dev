@@ -1,19 +1,8 @@
-import Project from '../models/project.js';
 
 const checkRole = (allowedRoles, failMessage) => {
     return async (req, res, next) => {
         const userId = req.user.id;
-        const projectId = req.params.projectId || req.params.id || req.projectId;
-        if(!projectId) {
-            return res.status(400).json({
-                success: false,
-                message: "Project ID is required."
-            });
-        }
-
-        const project = await Project.findOne({
-            _id: projectId,
-        });
+        const project = req.project;
         if (!project) {
             return res.status(404).json({
                 success: false,
