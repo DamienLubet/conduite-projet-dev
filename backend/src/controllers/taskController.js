@@ -1,4 +1,5 @@
 import Task from '../models/task.js';
+import UserStory from '../models/userstory.js';
 
 // Create a new task
 export const createTask = async (req, res) => {
@@ -13,6 +14,7 @@ export const createTask = async (req, res) => {
             title,
             description,
             userStory: userStoryId,
+            project: await UserStory.findById(userStoryId).then(us => us.project)
         });
         await newTask.save();
         res.status(201).json({ success: true, message: 'Task created successfully.' });

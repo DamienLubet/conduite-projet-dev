@@ -1,8 +1,9 @@
-import { expect, it, jest } from "@jest/globals";
+import { describe, expect, it, jest } from "@jest/globals";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { createTask } from "../../src/controllers/taskController.js";
 import Task from "../../src/models/task.js";
+import UserStory from "../../src/models/userstory.js";
 
 let mongoServer;
 
@@ -25,12 +26,19 @@ describe("TaskController - createTask", () => {
     let res, req, userStoryId;
 
     beforeEach(() => {
+        projectId = new mongoose.Types.ObjectId();
         userStoryId = new mongoose.Types.ObjectId();
         req = { body: {}, params: { userStoryId } };
         res = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn(),
         };
+
+        jest.spyOn(UserStory, "findById").mockResolvedValue({
+            _id: userStoryId,
+            project: projectId
+        });
+
         jest.clearAllMocks();
     });
 

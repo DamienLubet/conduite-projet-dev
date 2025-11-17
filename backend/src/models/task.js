@@ -7,6 +7,7 @@ const taskSchema = new Schema({
     status: { type: String, enum: ['To Do', 'In Progress', 'Done'], default: 'To Do' },
     assignee: { type: Schema.Types.ObjectId, ref: 'User' },
     userStory: { type: Schema.Types.ObjectId, ref: 'UserStory', required: true },
+    project: { type: Schema.Types.ObjectId, ref: 'Project', required: true },
 }, { timestamps: true });
 
 // Auto-increment task number within the same user story
