@@ -22,3 +22,28 @@ export const createTask = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 }
+
+// Get tasks by user story ID
+export const getTasksByUserStory = async (req, res) => {
+    try {
+        const userStoryId = req.params.userStoryId;
+        const tasks = await Task.find({ userStory: userStoryId });
+        res.status(200).json({ success: true, data: tasks });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+}
+
+// Get a single task by ID
+export const getTaskById = async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const task = await Task.findById(taskId);
+        if (!task) {
+            return res.status(404).json({ success: false, message: 'Task not found.' });
+        }
+        res.status(200).json({ success: true, data: task });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+}
