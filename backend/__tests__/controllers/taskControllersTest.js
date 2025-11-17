@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { createTask } from "../../src/controllers/taskController.js";
+import { createTask, getTaskById, getTasksByUserStory } from "../../src/controllers/taskController.js";
 import Task from "../../src/models/task.js";
 import UserStory from "../../src/models/userstory.js";
 
@@ -75,5 +75,76 @@ describe("TaskController - createTask", () => {
 
         const tasks = await Task.find({ userStory: userStoryId });
         expect(tasks).toHaveLength(0);
+    });
+});
+
+describe("TaskController - getTasksByUserStory", () => {
+    let res, req, userStoryId;
+
+    beforeEach(() => {
+        userStoryId = new mongoose.Types.ObjectId();
+        projectId = new mongoose.Types.ObjectId();
+        req = { params: { userStoryId } };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+
+        jest.spyOn(UserStory, "findById").mockResolvedValue({
+            _id: userStoryId,
+            project: projectId
+        });
+
+        jest.clearAllMocks();
+    });
+
+    it("should retrieve tasks by user story ID", async () => {
+        await new Task({ title: "Task 1", userStory: userStoryId, project: projectId }).save();
+        await new Task({ title: "Task 2", userStory: userStoryId, project: projectId }).save();
+
+        await getTasksByUserStory(req, res);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            success: true,
+            data: expect.arrayContaining([
+                expect.objectContaining({ title: "Task 1" }),
+                expect.objectContaining({ title: "Task 2" }),
+            ]),
+        }));
+    });
+});
+
+describe("TaskController - getTaskById", () => {
+    let res, req, taskId;
+
+    beforeEach(async () => {
+        const task = await new Task({ title: "Single Task", userStory: new mongoose.Types.ObjectId(), project: new mongoose.Types.ObjectId() }).save();
+        taskId = task._id;
+        req = { params: { id: taskId } };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        jest.clearAllMocks();
+    });
+
+    it("should retrieve a task by ID", async () => {
+        await getTaskById(req, res);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            success: true,
+            data: expect.objectContaining({ title: "Single Task" }),
+        }));
+    });
+
+    it("should return 404 if task not found", async () => {
+        req.params.id = new mongoose.Types.ObjectId();
+
+        await getTaskById(req, res);
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            success: false,
+            message: "Task not found.",
+        }));
     });
 });
