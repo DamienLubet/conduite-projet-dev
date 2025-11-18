@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUserStory, getUserStoriesByProject, getUserStoryById } from '../controllers/userstoryController.js';
+import { createUserStory, deleteUserStory, getUserStoriesByProject, getUserStoryById, updateUserStory } from '../controllers/userstoryController.js';
 import exists from '../middleware/exists.js';
 import requireAuth from '../middleware/requireAuth.js';
 import { requireToBeMember } from '../middleware/requireRole.js';
@@ -16,5 +16,7 @@ userstoryRouter.use(requireAuth);
 userstoryRouter.post('/projects/:projectId/userstories', createUserStory);
 userstoryRouter.get('/projects/:projectId/userstories', exists(Project, 'projectId'), requireToBeMember, getUserStoriesByProject);
 userstoryRouter.get('/userstories/:id', exists(UserStory, 'id'), resolveProjectId, requireToBeMember, getUserStoryById);
+userstoryRouter.put('/userstories/:id', exists(UserStory, 'id'), resolveProjectId, requireToBeMember, updateUserStory);
+userstoryRouter.delete('/userstories/:id', exists(UserStory, 'id'), resolveProjectId, requireToBeMember, deleteUserStory);
 
 export default userstoryRouter;
