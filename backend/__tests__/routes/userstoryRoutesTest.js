@@ -6,6 +6,7 @@ import Project from "../../src/models/project.js";
 import authRouter from "../../src/routes/authRoutes.js";
 import projectRouter from "../../src/routes/projectRoutes.js";
 import userstoryRouter from "../../src/routes/userstoryRoutes.js";
+import UserStory from "../../src/models/userstory.js";
 
 let mongoServer;
 let app;
@@ -78,6 +79,48 @@ describe("UserStory Routes", () => {
             expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty("success", false);
             expect(res.body).toHaveProperty("message", "Authorization header missing");
+        });
+    });
+
+    describe("GET /projects/:projectId/userstories", () => {
+        it("should get user stories for a project", async () => {
+            // First, create a user story
+            const userStory = await new UserStory({
+                title: "Fetch Test Story",
+                description: "This is a test user story for fetching",
+                priority: "Medium",
+                storyPoints: 5,
+                project: projectId,
+            }).save();
+
+            const res = await request(app)
+                .get(`/projects/${projectId}/userstories`)
+                .set("Authorization", `Bearer ${token}`);
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toHaveProperty("success", true);
+            expect(res.body.data.length).toBe(1);
+            expect(res.body.data[0]).toHaveProperty("title", "Fetch Test Story");
+        });
+    });
+
+    describe("GET /userstories/:id", () => {
+        it("should get a user story by ID", async () => {
+            // First, create a user story
+            const userStory = await new UserStory({
+                title: "Fetch By ID Test Story",
+                description: "This is a test user story for fetching by ID",
+                project: projectId,
+            }).save();
+
+            const res = await request(app)
+                .get(`/userstories/${userStory._id}`)
+                .set("Authorization", `Bearer ${token}`);
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toHaveProperty("success", true);
+            expect(res.body.data).toHaveProperty("_id", userStory._id.toString());
+            expect(res.body.data).toHaveProperty("title", "Fetch By ID Test Story");
         });
     });
 });
