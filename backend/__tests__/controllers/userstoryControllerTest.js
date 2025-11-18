@@ -1,7 +1,8 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { createUserStory, getUserStoriesByProject, getUserStoryById } from "../../src/controllers/userstoryController.js";
+import { createUserStory, deleteUserStory, getUserStoriesByProject, getUserStoryById, updateUserStory } from "../../src/controllers/userstoryController.js";
+import Task from "../../src/models/task.js";
 import UserStory from "../../src/models/userstory.js";
 
 let mongoServer;
@@ -152,6 +153,94 @@ describe("UserStory Controller - getUserStoryById", () => {
             expect.objectContaining({
                 success: false,
                 message: "User story not found."
+            }));
+    });
+});
+
+describe("UserStory Controller - updateUserStory", () => {
+    let res, req, userstory;
+
+    beforeEach(async () => {
+        userstory = new UserStory({
+            title: "Old Title",
+            description: "Old Description",
+            priority: "Low",
+            storyPoints: 2,
+            project: new mongoose.Types.ObjectId(),
+        });
+        await userstory.save();
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        jest.clearAllMocks();
+    });
+
+    it("should update a user story successfully", async () => {
+        req = { body: { title: "Updated Title", priority: "High", storyPoints: 8 }, userstory };
+        await updateUserStory(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(
+            expect.objectContaining({
+                success: true,
+                message: "User story updated successfully.",
+                data: expect.objectContaining({ title: "Updated Title", priority: "High", storyPoints: 8 }),
+            }));
+    });
+});
+
+describe("UserStory Controller - deleteUserStory", () => {
+    let res, req, userstory;
+
+    beforeEach(async () => {
+        userstory = new UserStory({
+            title: "Old Title",
+            description: "Old Description",
+            priority: "Low",
+            storyPoints: 2,
+            project: new mongoose.Types.ObjectId(),
+        });
+        await userstory.save();
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        jest.clearAllMocks();
+    });
+
+    it("should delete a user story successfully", async () => {
+        req = { userstory };
+        await deleteUserStory(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(
+            expect.objectContaining({
+                success: true,
+                message: "User story deleted successfully.",
+            }));
+    });
+
+    it("should delete associated tasks when deleting a user story", async () => {
+        // Assuming Task model and its relation to UserStory
+        const task = new Task({
+            title: "Associated Task",
+            userStory: userstory._id,
+            project: userstory.project,
+        });
+        await task.save();
+
+        req = { userstory };
+        await deleteUserStory(req, res);
+
+        const foundTask = await Task.findOne({ userStory: userstory._id });
+        expect(foundTask).toBeNull();
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(
+            expect.objectContaining({
+                success: true,
+                message: "User story deleted successfully.",
             }));
     });
 });

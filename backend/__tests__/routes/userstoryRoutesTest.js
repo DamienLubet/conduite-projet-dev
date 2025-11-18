@@ -3,10 +3,10 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import request from "supertest";
 import Project from "../../src/models/project.js";
+import UserStory from "../../src/models/userstory.js";
 import authRouter from "../../src/routes/authRoutes.js";
 import projectRouter from "../../src/routes/projectRoutes.js";
 import userstoryRouter from "../../src/routes/userstoryRoutes.js";
-import UserStory from "../../src/models/userstory.js";
 
 let mongoServer;
 let app;
@@ -121,6 +121,53 @@ describe("UserStory Routes", () => {
             expect(res.body).toHaveProperty("success", true);
             expect(res.body.data).toHaveProperty("_id", userStory._id.toString());
             expect(res.body.data).toHaveProperty("title", "Fetch By ID Test Story");
+        });
+    });
+
+    describe("PUT /userstories/:id", () => {
+        it("should update a user story by ID", async () => {
+            // First, create a user story
+            const userStory = await new UserStory({
+                title: "Update Test Story",
+                description: "This is a test user story for updating",
+                project: projectId,
+            }).save();
+
+            const res = await request(app)
+                .put(`/userstories/${userStory._id}`)
+                .set("Authorization", `Bearer ${token}`)
+                .send({ title: "Updated Test Story", priority: "Low" });
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toHaveProperty("success", true);
+            expect(res.body).toHaveProperty("message", "User story updated successfully.");
+
+            const updatedStory = await UserStory.findById(userStory._id);
+            expect(updatedStory).toHaveProperty("title", "Updated Test Story");
+            expect(updatedStory).toHaveProperty("priority", "Low");
+            expect(updatedStory).toHaveProperty("description", "This is a test user story for updating");
+        });
+    });
+
+    describe("DELETE /userstories/:id", () => {
+        it("should delete a user story by ID", async () => {
+            // First, create a user story
+            const userStory = await new UserStory({
+                title: "Delete Test Story",
+                description: "This is a test user story for deleting",
+                project: projectId,
+            }).save();
+
+            const res = await request(app)
+                .delete(`/userstories/${userStory._id}`)
+                .set("Authorization", `Bearer ${token}`);
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toHaveProperty("success", true);
+            expect(res.body).toHaveProperty("message", "User story deleted successfully.");
+
+            const deletedStory = await UserStory.findById(userStory._id);
+            expect(deletedStory).toBeNull();
         });
     });
 });
