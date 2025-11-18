@@ -23,3 +23,30 @@ export const createUserStory = async (req, res) => {
         return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 }
+
+// Get user stories by project ID
+export const getUserStoriesByProject = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        const userStories = await UserStory.find({ project: projectId });
+        return res.status(200).json({ success: true, data: userStories });
+    } catch (error) {
+        console.error('Error retrieving user stories:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+}
+
+// Get a single user story by ID
+export const getUserStoryById = async (req, res) => {
+    try {
+        const userStoryId = req.params.id;
+        const userStory = await UserStory.findById(userStoryId);
+        if (!userStory) {
+            return res.status(404).json({ success: false, message: 'User story not found.' });
+        }
+        return res.status(200).json({ success: true, data: userStory });
+    } catch (error) {
+        console.error('Error retrieving user story:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+}
