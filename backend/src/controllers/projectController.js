@@ -24,7 +24,7 @@ export const createProject = async (req, res) => {
             members: [{ userID: ownerId, role: 'Scrum Master' }],
         });
         await newProject.save();
-        return res.status(201).json({ success: true, message: 'Project created successfully.' });
+        return res.status(201).json({ success: true, message: 'Project created successfully.', projectID: newProject._id });
     } catch (error) {
         console.error('Error creating project:', error);
         return res.status(500).json({ success: false, message: 'Internal server error.' });
