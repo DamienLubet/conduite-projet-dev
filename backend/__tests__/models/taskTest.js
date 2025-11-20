@@ -26,6 +26,7 @@ describe('Task Model', () => {
             description: 'This is a test task',
             status: 'To Do',
             userStory: new mongoose.Types.ObjectId(),
+            project: new mongoose.Types.ObjectId(),
         });
         expect(task._id).toBeDefined();
         expect(task.number).toBe(1);
@@ -34,13 +35,16 @@ describe('Task Model', () => {
     
     it('should auto-increment task number within the same user story', async () => {
         const userStoryId = new mongoose.Types.ObjectId();
+        const projectId = new mongoose.Types.ObjectId();
         const task1 = await Task.create({
             title: 'First Task',
             userStory: userStoryId,
+            project: projectId,
         });
         const task2 = await Task.create({
             title: 'Second Task',
             userStory: userStoryId,
+            project: projectId,
         });
         expect(task1.number).toBe(1);
         expect(task2.number).toBe(2);
@@ -67,6 +71,7 @@ describe('Task Model', () => {
                 title: 'Invalid Status Task',
                 status: 'Invalid Status',
                 userStory: new mongoose.Types.ObjectId(),
+                project: new mongoose.Types.ObjectId(),
             });
         } catch (e) {
             error = e;

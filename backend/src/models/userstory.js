@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import Task from './task.js';
 
 const userStorySchema = new Schema({
     number: { type: Number },
@@ -16,6 +17,12 @@ userStorySchema.pre('save', async function (next) {
         const lastStory = await UserStory.findOne({ project: this.project }).sort({ number: -1 });
         this.number = lastStory ? lastStory.number + 1 : 1;
     }
+    next();
+});
+
+userStorySchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+    const userStoryId = this._id;
+    await Task.deleteMany({ userStory: userStoryId });
     next();
 });
 

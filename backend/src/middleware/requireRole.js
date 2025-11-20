@@ -1,13 +1,20 @@
+import Project from '../models/project.js';
 
 const checkRole = (allowedRoles, failMessage) => {
     return async (req, res, next) => {
         const userId = req.user.id;
-        const project = req.project;
+        let project = req.project;
         if (!project) {
-            return res.status(404).json({
-                success: false,
-                message: "Project not found."
-            });
+            const projectId = req.projectId || req.params?.projectId;
+
+            project = projectId ? await Project.findById(projectId) : null;
+
+            if (!project) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Project not found."
+                });
+            }
         }
         
         // Check if the user is a member with the required role
