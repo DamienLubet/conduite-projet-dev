@@ -12,6 +12,11 @@ export default async function resolveProjectId(req, res, next) {
             return next();
         }
 
+        if (req.sprint) {
+            req.projectId = req.sprint.project;
+            return next();
+        }
+
         return res.status(400).json({ success: false, message: 'Unable to resolve project from request.' });
     } catch (err) {
         return res.status(500).json({ success: false, message: 'Internal server error.' });
