@@ -8,6 +8,7 @@ const userStorySchema = new Schema({
     priority: { type: String, enum: ['Low', 'Medium', 'High'], default: 'Medium' },
     storyPoints: { type: Number, default: 0 },
     project: { type: Schema.Types.ObjectId, ref: 'Project', required: true },
+    sprint: { type: Schema.Types.ObjectId, ref: 'Sprint' },
 }, { timestamps: true });
 
 // Auto-increment story number within the same project

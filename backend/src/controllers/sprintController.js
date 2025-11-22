@@ -1,4 +1,6 @@
 import Sprint from '../models/sprint.js';
+import User from '../models/user.js';
+import UserStory from '../models/userstory.js';
 
 export const createSprint = async (req, res) => {
     try {
@@ -14,6 +16,22 @@ export const createSprint = async (req, res) => {
         const sprint = new Sprint({ name, description, startDate, endDate, project });
         await sprint.save();
         res.status(201).json({ success: true, sprint });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const getSprintsByProject = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+        const sprints = await Sprint.find({ project: projectId }).lean({ virtuals: true });
+
+        // Get User Stories for each Sprint
+        const sprintsWithUS = await Promise.all(sprints.map(async (sprint) => {
+            const userStories = await UserStory.find({ sprint: sprint._id });
+            return { ...sprint, userStories };
+        }));
+        res.status(200).json({ success: true, sprints: sprintsWithUS });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
