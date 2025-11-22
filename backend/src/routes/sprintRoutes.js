@@ -1,9 +1,11 @@
 import express from 'express';
-import { createSprint, getSprintsByProject } from '../controllers/sprintController.js';
+import { assignUserStoriesToSprint, createSprint, getSprintsByProject, updateSprint } from '../controllers/sprintController.js';
 import exists from '../middleware/exists.js';
 import requireAuth from '../middleware/requireAuth.js';
 import { requireScrumMaster, requireToBeMember } from '../middleware/requireRole.js';
+import resolveProjectId from '../middleware/resolveProjectId.js';
 import Project from '../models/project.js';
+import Sprint from '../models/sprint.js';
 
 const sprintRouter = express.Router();
 
@@ -12,5 +14,7 @@ sprintRouter.use(requireAuth);
 
 sprintRouter.post('/projects/:projectId/sprints', exists(Project, 'projectId'), requireScrumMaster, createSprint);
 sprintRouter.get('/projects/:projectId/sprints', exists(Project, 'projectId'), requireToBeMember, getSprintsByProject);
+sprintRouter.put('/sprints/:sprintId', exists(Sprint, 'sprintId'), resolveProjectId, requireScrumMaster, updateSprint);
+sprintRouter.post('/sprints/:sprintId/userstories', exists(Sprint, 'sprintId'), resolveProjectId, requireScrumMaster, assignUserStoriesToSprint);
 
 export default sprintRouter;
