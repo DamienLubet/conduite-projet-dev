@@ -41,6 +41,7 @@ afterAll(async () => {
 });
 
 afterEach(async () => {
+    await UserStory.deleteMany();
     await Sprint.deleteMany();
 });
 
@@ -92,6 +93,74 @@ describe("Sprint Routes", () => {
             expect(res.body.sprints[0]).toHaveProperty("userStories");
             expect(res.body.sprints[0].userStories.length).toBe(1);
             expect(res.body.sprints[0].userStories[0].title).toBe("User Story 1");
+        });
+    });
+
+    describe("PUT /sprints/:sprintId", () => {
+        it("should update a sprint", async () => {
+            const sprint = new Sprint({
+                name: "Sprint 1",
+                description: "First sprint",
+                startDate: "2024-01-01",
+                endDate: "2024-01-15",
+                project: projectId
+            });
+            await sprint.save();
+
+            const res = await request(app)
+                .put(`/sprints/${sprint._id}`)
+                .set("Authorization", `Bearer ${token}`)
+                .send({
+                    name: "Updated Sprint 1",
+                    description: "Updated description",
+                    startDate: "2024-01-05",
+                    endDate: "2024-01-20"
+                });
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.sprint.name).toBe("Updated Sprint 1");
+            expect(res.body.sprint.description).toBe("Updated description");
+            expect(new Date(res.body.sprint.startDate)).toEqual(new Date("2024-01-05"));
+            expect(new Date(res.body.sprint.endDate)).toEqual(new Date("2024-01-20"));
+        });
+    });
+
+    describe("POST /sprints/:sprintId/userstories", () => {
+        it("should assign user stories to a sprint", async () => {
+            const sprint = new Sprint({
+                name: "Sprint 1",
+                description: "First sprint",
+                startDate: "2024-01-01",
+                endDate: "2024-01-15",
+                project: projectId
+            });
+            await sprint.save();
+
+            const userStory1 = new UserStory({
+                title: "User Story 1",
+                project: projectId
+            });
+            await userStory1.save();
+
+            const userStory2 = new UserStory({
+                title: "User Story 2",
+                project: projectId
+            });
+            await userStory2.save();
+
+            const res = await request(app)
+                .post(`/sprints/${sprint._id}/userstories`)
+                .set("Authorization", `Bearer ${token}`)
+                .send({
+                    userStoriesIDs: [userStory1._id, userStory2._id]
+                });
+            expect(res.statusCode).toEqual(200);
+            expect(res.body).toHaveProperty("message");
+            expect(res.body.message).toBe("User Stories assigned to sprint successfully.");
+
+            const updatedUS1 = await UserStory.findById(userStory1._id);
+            const updatedUS2 = await UserStory.findById(userStory2._id);
+            expect(updatedUS1.sprint.toString()).toBe(sprint._id.toString());
+            expect(updatedUS2.sprint.toString()).toBe(sprint._id.toString());
         });
     });
 });
