@@ -117,10 +117,12 @@ describe("Sprint Routes", () => {
                     endDate: "2024-01-20"
                 });
             expect(res.statusCode).toEqual(200);
-            expect(res.body.sprint.name).toBe("Updated Sprint 1");
-            expect(res.body.sprint.description).toBe("Updated description");
-            expect(new Date(res.body.sprint.startDate)).toEqual(new Date("2024-01-05"));
-            expect(new Date(res.body.sprint.endDate)).toEqual(new Date("2024-01-20"));
+
+            const updatedSprint = await Sprint.findById(sprint._id);
+            expect(updatedSprint.name).toBe("Updated Sprint 1");
+            expect(updatedSprint.description).toBe("Updated description");
+            expect(updatedSprint.startDate).toEqual(new Date("2024-01-05"));
+            expect(updatedSprint.endDate).toEqual(new Date("2024-01-20"));
         });
     });
 

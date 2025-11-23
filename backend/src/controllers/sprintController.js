@@ -14,7 +14,7 @@ export const createSprint = async (req, res) => {
         
         const sprint = new Sprint({ name, description, startDate, endDate, project });
         await sprint.save();
-        res.status(201).json({ success: true, sprint });
+        res.status(201).json({ success: true, message: 'Sprint created successfully', sprint });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Internal server error.' });
     }
@@ -23,12 +23,13 @@ export const createSprint = async (req, res) => {
 export const getSprintsByProject = async (req, res) => {
     try {
         const projectId = req.params.projectId;
-        const sprints = await Sprint.find({ project: projectId }).lean({ virtuals: true });
+        const sprints = await Sprint.find({ project: projectId });
 
         // Get User Stories for each Sprint
         const sprintsWithUS = await Promise.all(sprints.map(async (sprint) => {
             const userStories = await UserStory.find({ sprint: sprint._id });
-            return { ...sprint, userStories };
+            const { timeRemaining } = sprint;
+            return { ...sprint.toObject({ virtuals: true }), userStories, timeRemaining };
         }));
         res.status(200).json({ success: true, sprints: sprintsWithUS });
     } catch (error) {
@@ -51,7 +52,7 @@ export const updateSprint = async (req, res) => {
         }
 
         await sprint.save();
-        res.status(200).json({ success: true, sprint });
+        res.status(200).json({ success: true, message: 'Sprint updated successfully' });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
