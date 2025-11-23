@@ -3,11 +3,11 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import request from "supertest";
 import Project from "../../src/models/project.js";
-import User from "../../src/models/user.js";
 import Sprint from "../../src/models/sprint.js";
+import User from "../../src/models/user.js";
+import UserStory from "../../src/models/userstory.js";
 import sprintRouter from "../../src/routes/sprintRoutes.js";
 import { generateToken } from "../../src/services/authService.js";
-import UserStory from "../../src/models/userstory.js";
 
 let mongoServer;
 let app;
@@ -161,6 +161,54 @@ describe("Sprint Routes", () => {
             const updatedUS2 = await UserStory.findById(userStory2._id);
             expect(updatedUS1.sprint.toString()).toBe(sprint._id.toString());
             expect(updatedUS2.sprint.toString()).toBe(sprint._id.toString());
+        });
+    });
+
+    describe("POST /sprints/:sprintId/start", () => {
+        it("should start a sprint", async () => {
+            const sprint = new Sprint({
+                name: "Sprint 1",
+                description: "First sprint",
+                startDate: "2024-01-01",
+                endDate: "2024-01-15",
+                project: projectId,
+                status: "planned"
+            });
+            await sprint.save();
+
+            const res = await request(app)
+                .post(`/sprints/${sprint._id}/start`)
+                .set("Authorization", `Bearer ${token}`);
+            expect(res.statusCode).toEqual(200);
+            expect(res.body).toHaveProperty("message");
+            expect(res.body.message).toBe("Sprint started successfully");
+
+            const updatedSprint = await Sprint.findById(sprint._id);
+            expect(updatedSprint.status).toBe("active");
+        });
+    });
+
+    describe("POST /sprints/:sprintId/complete", () => {
+        it("should complete a sprint", async () => {
+            const sprint = new Sprint({
+                name: "Sprint 1",
+                description: "First sprint",
+                startDate: "2024-01-01",
+                endDate: "2024-01-15",
+                project: projectId,
+                status: "active"
+            });
+            await sprint.save();
+
+            const res = await request(app)
+                .post(`/sprints/${sprint._id}/complete`)
+                .set("Authorization", `Bearer ${token}`);
+            expect(res.statusCode).toEqual(200);
+            expect(res.body).toHaveProperty("message");
+            expect(res.body.message).toBe("Sprint completed successfully");
+
+            const updatedSprint = await Sprint.findById(sprint._id);
+            expect(updatedSprint.status).toBe("completed");
         });
     });
 });
