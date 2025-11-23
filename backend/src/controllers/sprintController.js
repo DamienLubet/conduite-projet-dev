@@ -16,7 +16,7 @@ export const createSprint = async (req, res) => {
         await sprint.save();
         res.status(201).json({ success: true, sprint });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 };
 
@@ -32,7 +32,7 @@ export const getSprintsByProject = async (req, res) => {
         }));
         res.status(200).json({ success: true, sprints: sprintsWithUS });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 };
 
@@ -79,8 +79,38 @@ export const assignUserStoriesToSprint = async (req, res) => {
 
         res.status(200).json({ success: true, message: `User Stories assigned to sprint successfully.` });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: 'Internal server error.'});
     }
 };
 
-        
+export const startSprint = async (req, res) => {
+    try {
+        const sprint = req.sprint;
+
+        if (sprint.status !== 'planned') {
+            return res.status(400).json({ success: false, message: 'Only planned sprints can be started' });
+        }
+
+        sprint.status = 'active';
+        await sprint.save();     
+        res.status(200).json({ success: true, message: 'Sprint started successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+};
+
+export const completeSprint = async (req, res) => {
+    try {
+        const sprint = req.sprint;
+
+        if (sprint.status !== 'active') {
+            return res.status(400).json({ success: false, message: 'Only active sprints can be completed' });
+        }
+
+        sprint.status = 'completed';
+        await sprint.save();     
+        res.status(200).json({ success: true, message: 'Sprint completed successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+}
