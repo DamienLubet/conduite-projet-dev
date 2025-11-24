@@ -1,5 +1,6 @@
 import Sprint from '../models/sprint.js';
 import UserStory from '../models/userstory.js';
+import { newVersion } from '../services/versionService.js';
 
 export const createSprint = async (req, res) => {
     try {
@@ -109,6 +110,12 @@ export const completeSprint = async (req, res) => {
         }
 
         sprint.status = 'completed';
+        sprint.endDate = new Date();
+        try {
+            await newVersion(sprint, 'minor');
+        } catch (error) {
+            return res.status(500).json({ success: false, message: error.message });
+        }
         await sprint.save();     
         res.status(200).json({ success: true, message: 'Sprint completed successfully' });
     } catch (error) {
