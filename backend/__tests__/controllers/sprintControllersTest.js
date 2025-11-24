@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { assignUserStoriesToSprint, completeSprint, createSprint, getSprintsByProject, startSprint, updateSprint } from "../../src/controllers/sprintController.js";
 import Sprint from "../../src/models/sprint.js";
 import UserStory from "../../src/models/userstory.js";
+import Version from "../../src/models/version.js";
 
 let mongoServer;
 
@@ -22,6 +23,7 @@ afterEach(async () => {
     jest.clearAllMocks();
     await Sprint.deleteMany({});
     await UserStory.deleteMany({});
+    await Version.deleteMany({});
 });
 
 describe("SprintController - createSprint", () => {
@@ -321,6 +323,12 @@ describe("SprintController - completeSprint", () => {
 
         const updatedSprint = await Sprint.findById(sprintId);
         expect(updatedSprint.status).toBe('completed');
+
+        const version = await Version.findOne({ sprint: sprintId });
+        expect(version).not.toBeNull();
+        expect(version.sprint.toString()).toBe(sprintId.toString());
+        expect(version.description).toBe(`Release for sprint ${sprint.name}`);
+        expect(version.tag).toBe('v0.1.0');
     });
 
     it("should return 400 if sprint is not active", async () => {
@@ -334,5 +342,21 @@ describe("SprintController - completeSprint", () => {
             success: false,
             message: 'Only active sprints can be completed'
         });
+    });
+
+    it("should create version with specified type", async () => {
+        req.body = { type: 'major' };
+        await completeSprint(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            success: true,
+            message: 'Sprint completed successfully'
+        }));
+
+        const version = await Version.findOne({ sprint: sprintId });
+        expect(version).not.toBeNull();
+        expect(version.sprint.toString()).toBe(sprintId.toString());
+        expect(version.tag).toBe('v1.0.0');
     });
 });
