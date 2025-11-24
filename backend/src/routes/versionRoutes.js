@@ -1,10 +1,10 @@
 import express from 'express';
-import { createVersion, getVersionsByProject, updateVersion } from "../controllers/versionController";
-import exists from '../middleware/exists';
-import requireAuth from '../middleware/requireAuth';
-import { requireScrumMaster, requireToBeMember } from '../middleware/requireRole';
-import resolveProjectId from '../middleware/resolveProjectId';
-import Project from '../models/project';
+import { createVersion, getVersionsByProject, updateVersion } from "../controllers/versionController.js";
+import exists from '../middleware/exists.js';
+import requireAuth from '../middleware/requireAuth.js';
+import { requireScrumMaster, requireToBeMember } from '../middleware/requireRole.js';
+import resolveProjectId from '../middleware/resolveProjectId.js';
+import Project from '../models/project.js';
 import Version from '../models/version.js';
 
 const versionRouter = express.Router();
