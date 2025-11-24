@@ -5,7 +5,7 @@ export async function generateVersionTag(projectId, type) {
     if (!lastVersion) {
         return type === 'major' ? 'v1.0.0' : type === 'minor' ? 'v0.1.0' : 'v0.0.1';
     }
-    const [major, minor, patch] = lastVersion.tag.split('.').map(Number);
+    const [major, minor, patch] = lastVersion.tag.slice(1).split('.').map(Number);
     if (type === 'major') {
         return `v${major + 1}.0.0`;
     } else if (type === 'minor') {
