@@ -6,6 +6,7 @@ import sprintRouter from './routes/sprintRoutes.js';
 import taskRouter from './routes/taskRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import userstoryRouter from './routes/userstoryRoutes.js';
+import versionRouter from './routes/versionRoutes.js';
 
 // Load environment variables from .env file
 const PORT = process.env.PORT;
@@ -26,6 +27,7 @@ app.use('/api', userRouter);
 app.use('/api', userstoryRouter);
 app.use('/api', taskRouter);
 app.use('/api', sprintRouter);
+app.use('/api', versionRouter);
 
 // Start the server
 app.listen(PORT, HOST, () => {
