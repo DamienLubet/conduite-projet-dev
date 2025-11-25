@@ -30,6 +30,6 @@ app.use('/api', sprintRouter);
 app.use('/api', versionRouter);
 
 // Start the server
-app.listen(PORT, HOST, () => {
-    console.log(`Server running at http://${HOST}:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server running ...`);
 });
