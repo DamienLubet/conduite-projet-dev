@@ -5,23 +5,21 @@ services:
     image: mongo:6
     container_name: mongo
     restart: always
-    ports:
-      - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
   backend:
-    build: ./backend
+    build: 
+      context: backend
+      dockerfile: Dockerfile
     container_name: backend
     restart: always
     env_file:
       - ./backend/.env
     environment:
-      - MONGO_URI=${MONGO_URI:-mongodb://mongo:27017}
-      - DB_NAME=${DB_NAME:-app_db}
-      - PORT=${PORT:-3000}
-    ports:
-      - "${PORT:-3000}:${PORT:-3000}"
+      - MONGO_URI=mongodb://mongo:27017
+      - DB_NAME=M2CP
+      - PORT=80
     depends_on:
       - mongo
     volumes:
@@ -35,15 +33,27 @@ services:
     env_file:
       - ./frontend/.env
     environment:
-      - VITE_API_URL=${VITE_API_URL:-http://backend:3000}
-    ports:
-      - "5173:5173"
+      - VITE_API_URL=${VITE_API_URL:-http://backend/api}
     depends_on:
       - backend
     volumes:
       - ./frontend:/app
       - frontend_node_modules:/app/node_modules
     command: ["npm", "run", "dev", "--", "--host"]
+
+  reverseproxy:
+    container_name: reverseproxy
+    restart: always
+    build:
+      context: reverse-proxy/
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./reverse-proxy/log:/var/log/nginx
+    ports:
+      - 8080:80
 
 volumes:
   mongo_data:
