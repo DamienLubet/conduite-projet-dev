@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { userStoryApi } from '../../api/userstoryApi';
 import '../../styles/userStoryStyle.css';
 import UserStoryCard from './UserStoryCard.jsx';
+import UserStoryCreate from './UserStoryCreate.jsx';
 
 export default function UserStoryList() {
     const { getUserStoriesByProject, createUserStory, updateUserStory, deleteUserStory } = userStoryApi();
@@ -11,6 +12,8 @@ export default function UserStoryList() {
     const [userStories, setUserStories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    
+    const [showCreateModal, setShowCreateModal] = useState(false);
     
     const fetchUserStories = async () => {
         setLoading(true);
@@ -54,6 +57,20 @@ export default function UserStoryList() {
                     ))}
                 </div>
             </div>
+
+            {/* --- MODALS SECTION --- */}
+
+            {showCreateModal && (
+                <UserStoryCreate
+                    projectId={projectId}
+                    createUserStory={createUserStory}
+                    onCancel={() => setShowCreateModal(false)}
+                    onCreated={async () => {
+                        setShowCreateModal(false);
+                        await fetchUserStories();
+                    }}
+                />
+            )}
         </div>
     );
 }
