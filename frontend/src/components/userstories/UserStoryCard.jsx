@@ -1,12 +1,13 @@
 export default function UserStoryCard({ 
-    story
+    story, 
+    onEdit
 }) {
 
     return (
         <div>
-            <div className="userstory-card">
+            <div className="userstory-card" onClick={() => onEdit(story)}>
+                
                 <div className="userstory-card-header">
-    
                     <div className="userstory-card-header-left">
                         <span className="userstory-number">US{story.number}</span>
                         <span className="userstory-title">{story.title}</span>

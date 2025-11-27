@@ -4,6 +4,8 @@ import { userStoryApi } from '../../api/userstoryApi';
 import '../../styles/userStoryStyle.css';
 import UserStoryCard from './UserStoryCard.jsx';
 import UserStoryCreate from './UserStoryCreate.jsx';
+import UserStoryDeleteConfirm from './UserStoryDeleteConfirm.jsx';
+import UserStoryEdit from './UserStoryEdit.jsx';
 
 export default function UserStoryList() {
     const { getUserStoriesByProject, createUserStory, updateUserStory, deleteUserStory } = userStoryApi();
@@ -14,6 +16,8 @@ export default function UserStoryList() {
     const [error, setError] = useState(null);
     
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [editingStory, setEditingStory] = useState(null);
+    const [deletingStory, setDeletingStory] = useState(null);
     
     const fetchUserStories = async () => {
         setLoading(true);
@@ -53,6 +57,7 @@ export default function UserStoryList() {
                         <UserStoryCard 
                             key={story._id}
                             story={story}
+                            onEdit={setEditingStory}
                         />
                     ))}
                 </div>
@@ -67,6 +72,34 @@ export default function UserStoryList() {
                     onCancel={() => setShowCreateModal(false)}
                     onCreated={async () => {
                         setShowCreateModal(false);
+                        await fetchUserStories();
+                    }}
+                />
+            )}
+
+            {editingStory && (
+                <UserStoryEdit
+                    story={editingStory}
+                    updateUserStory={updateUserStory}
+                    onCancel={() => setEditingStory(null)}
+                    onRequestDelete={(story) => {
+                        setEditingStory(null);
+                        setDeletingStory(story);
+                    }}
+                    onUpdated={async () => {
+                        setEditingStory(null);
+                        await fetchUserStories();
+                    }}
+                />
+            )}
+
+            {deletingStory && (
+                <UserStoryDeleteConfirm
+                    story={deletingStory}
+                    deleteUserStory={deleteUserStory}
+                    onCancel={() => setDeletingStory(null)}
+                    onDeleted={async () => {
+                        setDeletingStory(null);
                         await fetchUserStories();
                     }}
                 />

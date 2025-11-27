@@ -1,0 +1,174 @@
+.userstory-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+  justify-content: center;
+}
+
+.userstory-list-container {
+  width: 760px;
+  margin: 2rem auto 0;
+  padding: 1rem 1.2rem;
+  background: #1b1c1d;
+  border-radius: 6px;
+}
+
+.userstory-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.userstory-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.us-add-button {
+  background-color: #1d2533;
+  color: #f9fafb;
+  border: 1px solid #2563eb;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.create-task-button{
+  background-color: #1d2533;
+  color: #f9fafb;
+  border: 1px solid #2563eb;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.us-add-button:hover,
+.create-task-button:hover {
+  background-color: #2563eb;
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.4);
+  transform: translateY(-1px);
+}
+
+.userstory-card-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.userstory-card {
+  border-radius: 4px;
+  padding: 0.6rem 0.8rem;
+  background: #15191f;
+  border: 1px solid #2b3440;
+  cursor: pointer;
+  transition: background 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease, transform 0.1s ease;
+}
+
+.userstory-card:hover {
+  background: #111827;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.userstory-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.userstory-card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.userstory-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+
+.userstory-number {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.userstory-storypoints {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.userstory-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #d1d5db;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userstory-description {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  max-height: 3.6rem; /* ~3 lignes */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userstory-card-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.userstory-priority {
+  margin-left: auto;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.userstory-priority-high {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fecaca;
+  border: 1px solid rgba(239, 68, 68, 0.6);
+}
+
+.userstory-priority-medium {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fde68a;
+  border: 1px solid rgba(245, 158, 11, 0.6);
+}
+
+.userstory-priority-low {
+  background: rgba(34, 197, 94, 0.12);
+  color: #bbf7d0;
+  border: 1px solid rgba(34, 197, 94, 0.6);
+}
+
+.expand-tasks-button {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}

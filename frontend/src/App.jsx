@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './App.css';
 import { useAuth } from './context/AuthContext.jsx';
 import AppRoutes from './routes/AppRoutes.jsx';
+import './styles/modalStyle.css';
 
 function App() {
   const { user, logout } = useAuth();
