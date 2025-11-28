@@ -15,9 +15,9 @@ export default function UserStoryList() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     
-    const [showCreateModal, setShowCreateModal] = useState(false);
-    const [editingStory, setEditingStory] = useState(null);
-    const [deletingStory, setDeletingStory] = useState(null);
+    // Modal states  :  Create, Edit, Delete
+    const [modalState, setModalState] = useState({ type: null, data: null });
+    const closeModal = () => setModalState({ type: null, data: null });
     
     const fetchUserStories = async () => {
         setLoading(true);
@@ -46,7 +46,7 @@ export default function UserStoryList() {
                     <h3>Backlog  {'('} {userStories.length} User Stories {')'}</h3>
                     <button
                         className="us-add-button"
-                        onClick={() => setShowCreateModal(true)}
+                        onClick={() => setModalState({ type: 'CREATE' })}
                     >
                         Create User Story
                     </button>
@@ -57,7 +57,7 @@ export default function UserStoryList() {
                         <UserStoryCard 
                             key={story._id}
                             story={story}
-                            onEdit={setEditingStory}
+                            onEdit={() => setModalState({ type: 'EDIT', data: story })}
                         />
                     ))}
                 </div>
@@ -65,41 +65,40 @@ export default function UserStoryList() {
 
             {/* --- MODALS SECTION --- */}
 
-            {showCreateModal && (
+            {modalState.type === 'CREATE' && (
                 <UserStoryCreate
                     projectId={projectId}
                     createUserStory={createUserStory}
-                    onCancel={() => setShowCreateModal(false)}
+                    onCancel={() => closeModal()}
                     onCreated={async () => {
-                        setShowCreateModal(false);
+                        closeModal();
                         await fetchUserStories();
                     }}
                 />
             )}
 
-            {editingStory && (
+            {modalState.type === 'EDIT' && (
                 <UserStoryEdit
-                    story={editingStory}
+                    story={modalState.data}
                     updateUserStory={updateUserStory}
-                    onCancel={() => setEditingStory(null)}
-                    onRequestDelete={(story) => {
-                        setEditingStory(null);
-                        setDeletingStory(story);
-                    }}
+                    onCancel={() => closeModal()}
                     onUpdated={async () => {
-                        setEditingStory(null);
+                        closeModal();
                         await fetchUserStories();
+                    }}
+                    onRequestDelete={() => {
+                        setModalState({ type: 'DELETE', data: modalState.data });
                     }}
                 />
             )}
 
-            {deletingStory && (
+            {modalState.type === 'DELETE' && (
                 <UserStoryDeleteConfirm
-                    story={deletingStory}
+                    story={modalState.data}
                     deleteUserStory={deleteUserStory}
-                    onCancel={() => setDeletingStory(null)}
+                    onCancel={() => closeModal()}
                     onDeleted={async () => {
-                        setDeletingStory(null);
+                        closeModal();
                         await fetchUserStories();
                     }}
                 />
