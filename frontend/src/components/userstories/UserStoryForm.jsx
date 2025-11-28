@@ -1,4 +1,3 @@
-// src/components/userstories/UserStoryForm.jsx
 import { useState } from 'react';
 
 export default function UserStoryForm({ 
@@ -102,7 +101,7 @@ export default function UserStoryForm({
             type="button"
             className="danger-button"
             onClick={() => {
-                if (!loading) onRequestDelete(story);
+                if (!loading) onRequestDelete();
             }}>
             Delete
         </button>)}

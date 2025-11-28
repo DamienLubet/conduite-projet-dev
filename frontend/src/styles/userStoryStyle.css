@@ -115,7 +115,7 @@
   font-size: 0.8rem;
   font-weight: 600;
   color: #d1d5db;
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -124,9 +124,10 @@
   margin: 0;
   font-size: 0.8rem;
   color: #9ca3af;
-  max-height: 3.6rem; /* ~3 lignes */
+  max-height: 3.6rem; 
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .userstory-card-actions {
