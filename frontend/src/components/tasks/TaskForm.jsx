@@ -15,8 +15,8 @@ export default function TaskForm({
     const [title, setTitle] = useState(initialValues.title || '');
     const [description, setDescription] = useState(initialValues.description || '');
     const [status, setStatus] = useState(initialValues.status || 'To Do');
-    const [assignedTo, setAssignedTo] = useState(initialValues.assignee._id || '');
-    const [initialAssignedTo] = useState(initialValues.assignee._id || '');
+    const [assignedTo, setAssignedTo] = useState(initialValues.assignee?._id || '');
+    const [initialAssignedTo] = useState(initialValues.assignee?._id || '');
     
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
