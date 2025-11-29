@@ -1,4 +1,4 @@
-import { useAuth } from './context/AuthContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export const API_BASE_URL = '/api';
 
