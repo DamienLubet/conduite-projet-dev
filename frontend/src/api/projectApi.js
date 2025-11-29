@@ -11,7 +11,7 @@ export const projectApi = () => {
     };
 
     const getProjects = async () => {
-        return await authFetch(`user/projects`);
+        return await authFetch(`/user/projects`);
     };
 
     const getProjectById = async (projectId) => {
