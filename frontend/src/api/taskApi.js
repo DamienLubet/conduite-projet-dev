@@ -27,10 +27,18 @@ export const taskApi = () => {
         });
     };
 
+    const assignTask = async (taskId, assigneeData) => {
+        return await authFetch(`/tasks/${taskId}/assign`, {
+            method: 'PUT',
+            body: JSON.stringify(assigneeData),
+        });
+    };
+
     return {
         createTask,
         getTasksByUserStory,
         updateTask,
         deleteTask,
+        assignTask,
     };
 };

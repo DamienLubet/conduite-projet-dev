@@ -29,7 +29,7 @@ export const createTask = async (req, res) => {
 export const getTasksByUserStory = async (req, res) => {
     try {
         const userStoryId = req.params.userStoryId;
-        const tasks = await Task.find({ userStory: userStoryId });
+        const tasks = await Task.find({ userStory: userStoryId }).populate('assignee', 'username email');
         res.status(200).json({ success: true, data: tasks });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -40,7 +40,7 @@ export const getTasksByUserStory = async (req, res) => {
 export const getTaskById = async (req, res) => {
     try {
         const taskId = req.params.id;
-        const task = await Task.findById(taskId);
+        const task = await Task.findById(taskId).populate('assignee', 'username email');
         if (!task) {
             return res.status(404).json({ success: false, message: 'Task not found.' });
         }

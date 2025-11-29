@@ -45,7 +45,8 @@ export const getProjectbyId = async (req, res) => {
                 { owner: userId },
                 { "members.userID": userId }
             ]
-        });
+        }).populate('owner', 'username email').populate('members.userID', 'username email');
+
         if (!project) {
             return res.status(404).json({ success: false, message: 'Project not found or access denied.' });
         }
