@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api/projectApi';
 import '../../styles/projectStyle.css';
-//import ProjectCard from './ProjectCard.jsx';
 import ProjectCreate from './ProjectCreate.jsx';
 import ProjectDeleteConfirm from './ProjectDeleteConfirm.jsx';
 import ProjectEdit from './ProjectEdit.jsx';
@@ -14,6 +13,7 @@ export default function ProjectList() {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
     
     // Modal states  :  Create, Edit, Delete
     const [modalState, setModalState] = useState({ type: null, data: null });
@@ -24,7 +24,7 @@ export default function ProjectList() {
         setError(null);
         try {
             const res = await getProjects();
-            setProjects(res.data);
+            setProjects(res.projects);
         } catch (err) {
             setError('Failed to load projects.');
         } finally {
@@ -43,7 +43,7 @@ export default function ProjectList() {
             
             <div className="project-list-container">
                 <div className="project-header">
-                    <h3>Your  {projects.length} Projects </h3>
+                    <h3>Your Projects </h3>
                     <button
                         className="project-add-button"
                         onClick={() => setModalState({ type: 'CREATE' })}
@@ -53,12 +53,14 @@ export default function ProjectList() {
                 </div>
                 
                 <div className="project-card-column">
-                    {Array.isArray(projects) && projects.map((project) => (
-                        <ProjectCard 
-                            key={project._id}
-                            project={project}
-                            onEdit={() => setModalState({ type: 'EDIT', data: project })}
-                        />
+                    {Array.isArray(projects) && projects.map((project) => (         
+                        <div
+                            key={project.id || project._id}
+                            className="project-card"
+                            onClick={() => navigate(`/projects/${project.id || project._id}`)}
+                        >
+                                <h4>{project.name}</h4>
+                        </div>
                     ))}
                 </div>
             </div>
