@@ -74,6 +74,17 @@ export default function Project() {
                 </div>
 
                 <div className="project-members">
+                    <h3>Product Owner:</h3>
+                    <div className="project-members-list">
+                        {project?.owner ? (
+                            <div className="project-member-owner">
+                                {project.owner.username}
+                            </div>
+                        ) : <p className="error" style={{ color: 'red' }}>No owner found.</p>}
+                    </div>
+                </div>
+
+                <div className="project-members">
                     <h3>Members:</h3>
                     <div className="project-members-list">
                         {project?.members?.map((member) => (
