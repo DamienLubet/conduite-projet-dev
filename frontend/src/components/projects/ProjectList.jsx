@@ -57,7 +57,7 @@ export default function ProjectList() {
                         <div
                             key={project.id || project._id}
                             className="project-card"
-                            onClick={() => navigate(`/projects/${project.id || project._id}`)}
+                            onClick={() => setModalState({ type: 'EDIT', data: project })}
                         >
                                 <h4>{project.name}</h4>
                         </div>
