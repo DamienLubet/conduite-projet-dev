@@ -73,6 +73,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  border-bottom: 1px solid #30363d;
 }
 
 .project-sidebar-right h3 {
@@ -92,4 +93,14 @@
   white-space: pre-wrap;
   overflow-wrap: break-word;
   overflow: hidden;
+}
+
+.danger-button {
+  background-color: transparent;
+  border: 1px solid #b91c1c;
+  color: #b91c1c;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
