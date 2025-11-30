@@ -31,11 +31,35 @@ export const projectApi = () => {
         });
     };
 
+    const addProjectMember = async (projectId, memberData) => {
+        return await authFetch(`/projects/${projectId}/members`, {
+            method: 'POST',
+            body: JSON.stringify(memberData),
+        });
+    };
+
+    const removeProjectMember = async (projectId, memberData) => {
+        return await authFetch(`/projects/${projectId}/members`, {
+            method: 'DELETE',
+            body: JSON.stringify(memberData),
+        });
+    };
+
+    const changeProjectMemberRole = async (projectId, memberData) => {
+        return await authFetch(`/projects/${projectId}/members`, {
+            method: 'PUT',
+            body: JSON.stringify(memberData),
+        });
+    };
+
     return {
         createProject,
         getProjects,
         getProjectById,
         updateProject,
         deleteProject,
+        addProjectMember,
+        removeProjectMember,
+        changeProjectMemberRole,
     };
 };

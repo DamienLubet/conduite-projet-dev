@@ -35,16 +35,16 @@ html, body {
   margin-right: 1rem;
 }
 
-.app-main {
+.home {
+  max-width: 600px;
+}
+
+.auth-page {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 2rem;
-}
-
-.home {
-  max-width: 600px;
 }
 
 .auth-container {

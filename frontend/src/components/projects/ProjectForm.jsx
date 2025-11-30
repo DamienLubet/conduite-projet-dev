@@ -9,6 +9,7 @@ export default function ProjectForm({
     isEditMode = false
 }) {
     const [name, setName] = useState(initialValues.name || '');
+    const [description, setDescription] = useState(initialValues.description || '');
     
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -23,8 +24,12 @@ export default function ProjectForm({
         setLoading(true);
         setError(null);
         try {
+            if (initialValues.name === name.trim()) {
+                initialValues.name = undefined;
+            }
             const payload = {
-                name: name.trim()
+                name: name.trim(),
+                description: description.trim()
             };
             
             await onSubmit(payload);
@@ -41,7 +46,7 @@ export default function ProjectForm({
             {error && <p style={{ color: 'red' }}>{error}</p>}
             
             <div className="form-group">
-                <label htmlFor="project-name">Name *</label>
+                <label htmlFor="project-name">Name</label>
                 <input
                     id="project-name"
                     type="text"
@@ -52,10 +57,26 @@ export default function ProjectForm({
                 />
             </div>
 
+            {isEditMode && (
+                <>
+                    <div className="form-group">
+                        <label htmlFor="project-description">Description</label>
+                        <input
+                            id="project-description"
+                            type="text"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            disabled={loading}
+                        />
+                    </div>
+                </>
+            )}
+            
+
             <div className="modal-actions">
-                <button type="button" onClick={onCancel} disabled={loading}>
+                {onCancel && <button type="button" onClick={onCancel} disabled={loading}>
                     Cancel
-                </button>
+                </button>}
                 
                 <button type="submit" disabled={loading}>
                     {loading ? 'Saving...' : submitLabel}

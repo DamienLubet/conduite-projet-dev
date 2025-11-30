@@ -1,28 +1,32 @@
-// src/components/projects/ProjectEdit.jsx
+import { useState } from 'react';
 import { projectApi } from '../../api/projectApi';
 import ProjectForm from './ProjectForm';
 
-export default function ProjectEdit({ project, onUpdated, onCancel, onRequestDelete }) {
-    const { updateProject} = projectApi();
+export default function ProjectEdit({ project, setProject }) {
+    const { updateProject } = projectApi();
+    const [message, setMessage] = useState('');
 
-    const handleUpdate = async (formData) => {
-        await updateProject(project._id, formData);
-        if (onUpdated) onUpdated();
+    const handleSave = async (formData) => {
+        const res = await updateProject(project._id, formData);
+        if (res?.success) {
+            setMessage('Saved successfully!');
+            setProject(prev => ({ ...prev, ...formData }));
+        }
     };
 
     return (
-        <div className="modal-backdrop">
-            <div className="modal">
-                <h3>Edit Project</h3>
-                <ProjectForm 
-                    initialValues={project} 
-                    onSubmit={handleUpdate}
-                    onCancel={onCancel}
-                    onDelete={onRequestDelete}
-                    submitLabel="Save"
-                    isEditMode={true}
-                />
-            </div>
-        </div>
+        <section className="project-edit">
+            <h3>General</h3>
+            {message && <div className="success">{message}</div>}
+            
+            <ProjectForm 
+                initialValues={project}
+                onSubmit={handleSave}
+                showCancel={false} 
+                submitLabel="Save"
+                isEditMode={true}
+            />
+
+        </section>
     );
 }
