@@ -15,33 +15,33 @@ export const sprintApi = () => {
     }
 
     const updateSprint = async (sprintId, updateData) => {
-        return await authFetch(`/projects/sprints/${sprintId}`, {
+        return await authFetch(`/sprints/${sprintId}`, {
             method: 'PUT',
             body: JSON.stringify(updateData),
         });
     }
     
     const deleteSprint = async (sprintId) => {
-        return await authFetch(`/projects/sprints/${sprintId}`, {
+        return await authFetch(`/sprints/${sprintId}`, {
             method: 'DELETE',
         });
     }
 
     const assignUserStoriesToSprint = async (sprintId, userStoryIds) => {
-        return await authFetch(`/projects/sprints/${sprintId}/assign`, {
+        return await authFetch(`/sprints/${sprintId}/userstories`, {
             method: 'POST',
             body: JSON.stringify({ userStoryIds }),
         });
     }
 
     const startSprint = async (sprintId) => {
-        return await authFetch(`/projects/sprints/${sprintId}/start`, {
+        return await authFetch(`/sprints/${sprintId}/start`, {
             method: 'POST',
         });
     }
 
     const completeSprint = async (sprintId) => {
-        return await authFetch(`/projects/sprints/${sprintId}/complete`, {
+        return await authFetch(`/sprints/${sprintId}/complete`, {
             method: 'POST',
         });
     }

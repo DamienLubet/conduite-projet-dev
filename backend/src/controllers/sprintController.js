@@ -24,8 +24,8 @@ export const createSprint = async (req, res) => {
 export const deleteSprint = async (req, res) => {
     try {
         const sprint = req.sprint;
-        if (sprint.status === 'active') {
-            return res.status(400).json({ success: false, message: 'Active sprints cannot be deleted' });
+        if (sprint.status === 'active' || sprint.status === 'completed') {
+            return res.status(400).json({ success: false, message: 'Active or completed sprints cannot be deleted' });
         }
         await sprint.remove();
         res.status(200).json({ success: true, message: 'Sprint deleted successfully' });
