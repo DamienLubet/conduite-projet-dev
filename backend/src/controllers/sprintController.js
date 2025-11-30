@@ -21,6 +21,16 @@ export const createSprint = async (req, res) => {
     }
 };
 
+export const deleteSprint = async (req, res) => {
+    try {
+        const sprint = req.sprint;
+        await sprint.remove();
+        res.status(200).json({ success: true, message: 'Sprint deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+};
+
 export const getSprintsByProject = async (req, res) => {
     try {
         const projectId = req.params.projectId;
