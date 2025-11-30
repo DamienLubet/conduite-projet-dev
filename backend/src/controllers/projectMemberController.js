@@ -39,6 +39,10 @@ export const removeProjectMember = async (req, res) => {
             m => m.userID.toString() === userToRemove._id.toString()
         );
 
+        if (userToRemove._id.toString() === project.owner.toString()) {
+            return res.status(400).json({ success: false, message: "You cannot remove the project owner." });
+        }
+
         if (!isMember) {
             return res.status(404).json({
                 success: false,
@@ -70,6 +74,11 @@ export const changeMemberRole = async (req, res) => {
         const member = project.members.find(
             m => m.userID.toString() === userToChange._id.toString()
         );
+
+        if (member.userID.toString() === project.owner.toString()) {
+            return res.status(400).json({ success: false, message: "You cannot change the role of the project owner." });
+        }
+
         if (!member) {
             return res.status(404).json({
                 success: false,
