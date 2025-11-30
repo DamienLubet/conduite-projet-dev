@@ -1,9 +1,9 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from '../components/auth/Login.jsx';
 import Register from '../components/auth/Register.jsx';
-import UserStoryList from '../components/userstories/UserStoryList.jsx';
 import ProjectList from '../components/projects/ProjectList.jsx';
-import ProjectCreate from '../components/projects/ProjectCreate.jsx';
+import ProjectPage from '../components/projects/ProjectPage.jsx';
+import UserStoryList from '../components/userstories/UserStoryList.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
 function PrivateRoute({ children }) {
@@ -48,9 +48,7 @@ export default function AppRoutes() {
         path="/projects/:projectId"
         element={
           <PrivateRoute>
-            <div>Project - Page in construction</div>
-            {/* Here you can add nested routes for project details, user stories, etc. */}
-            <Outlet />
+            <ProjectPage />
           </PrivateRoute>
         }
       >
