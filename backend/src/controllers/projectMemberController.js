@@ -75,16 +75,17 @@ export const changeMemberRole = async (req, res) => {
             m => m.userID.toString() === userToChange._id.toString()
         );
 
-        if (member.userID.toString() === project.owner.toString()) {
-            return res.status(400).json({ success: false, message: "You cannot change the role of the project owner." });
-        }
-
         if (!member) {
             return res.status(404).json({
                 success: false,
                 message: "User is not a member of this project."
             });
         }
+
+        if (member.userID.toString() === project.owner.toString()) {
+            return res.status(400).json({ success: false, message: "You cannot change the role of the project owner." });
+        }
+
         const validRoles = ['Scrum Master', 'Developer', 'Viewer'];
         if (!validRoles.includes(newRole)) {
             return res.status(400).json({ success: false, message: 'Invalid role specified.' });
@@ -93,6 +94,6 @@ export const changeMemberRole = async (req, res) => {
         await project.save();
         return res.status(200).json({ success: true, message: 'Member role updated successfully.' });
     } catch (error) {
-        return res.status(500).json({ success: false, message: 'Internal server error.' });
+        return res.status(500).json({ success: false, message: 'Internal server error.' + error.message });
     }
 }
