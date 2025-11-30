@@ -55,7 +55,7 @@ export default function AppRoutes() {
         <Route index element={<Navigate to="backlog" replace />} />
         <Route path="backlog" element={<UserStoryList />} />
         <Route path="sprints" element={<div>Sprints - Coming soon</div>} />
-        <Route path="tasks" element={<div>Tasks - Coming soon</div>} />
+        <Route path="releases" element={<div>Releases - Coming soon</div>} />
         <Route path="settings" element={<div>Settings - Coming soon</div>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
