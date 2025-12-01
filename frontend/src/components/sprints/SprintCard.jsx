@@ -34,7 +34,7 @@ export default function SprintCard({
                     </div>
 
                     <span className={`sprint-date`}>Start: {sprint.startDate}</span>
-                    <span className="sprint-date">End: {sprint.startDate}</span>
+                    <span className="sprint-date">End: {sprint.endDate}</span>
                 </div>
 
                 {sprint.description && (<p className="sprint-description">{sprint.description}</p>)}
