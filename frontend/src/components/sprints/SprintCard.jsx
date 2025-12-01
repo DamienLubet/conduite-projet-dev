@@ -1,4 +1,4 @@
-titleimport { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { sprintApi } from '../../api/sprintApi';
 
 export default function SprintCard({

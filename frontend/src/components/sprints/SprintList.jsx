@@ -43,7 +43,7 @@ export default function SprintList() {
 
             <div className="sprint-list-container">
                 <div className="sprint-header">
-                    <h3>Your {'('} {sprints.length} Sprints {')'}</h3>
+                    <h3>Sprints:</h3>
                     <button
                         className="sprint-add-button"
                         onClick={() => setModalState({ type: 'CREATE' })}
