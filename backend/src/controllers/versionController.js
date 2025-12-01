@@ -39,7 +39,7 @@ export const updateVersion = async (req, res) => {
 export const getVersionsByProject = async (req, res) => {
     try {
         const projectId = req.params.projectId;
-        const versions = await Version.find({ project: projectId }).sort({ createdAt: -1 }).populate('sprint', 'name');
+        const versions = await Version.find({ project: projectId }).sort({ createdAt: -1 }).populate('sprint', 'name number' );
         res.status(200).json({ success: true, versions });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Internal server error.' });

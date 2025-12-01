@@ -1,0 +1,51 @@
+/* VersionList styles */
+.version-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.version-list-container {
+  width: 760px;
+  margin: 2rem auto 0;
+  padding: 1rem 1.2rem;
+  background: #1b1c1d;
+  border-radius: 6px;
+}
+
+.version-list-container h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.version-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.version-item {
+  background: #23272f;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.version-item:hover {
+  background: #283046;
+}
+.version-item h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #60a5fa;
+}
+.version-item p {
+  margin: 0.2rem 0;
+  color: #e5e7eb;
+  font-size: 0.95rem;
+}

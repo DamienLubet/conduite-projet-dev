@@ -5,6 +5,7 @@ import ProjectList from '../components/projects/ProjectList.jsx';
 import ProjectPage from '../components/projects/ProjectPage.jsx';
 import ProjectSettings from '../components/projects/ProjectSettings.jsx';
 import UserStoryList from '../components/userstories/UserStoryList.jsx';
+import VersionList from '../components/version/VersionList.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
 function PrivateRoute({ children }) {
@@ -56,7 +57,7 @@ export default function AppRoutes() {
         <Route index element={<Navigate to="backlog" replace />} />
         <Route path="backlog" element={<UserStoryList />} />
         <Route path="sprints" element={<div>Sprints - Coming soon</div>} />
-        <Route path="releases" element={<div>Releases - Coming soon</div>} />
+        <Route path="releases" element={<VersionList />} />
         <Route path="settings" element={<ProjectSettings />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
