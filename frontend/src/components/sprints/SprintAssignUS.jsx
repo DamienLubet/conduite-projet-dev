@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { sprintApi } from '../../api/sprintApi.js';
 import { userStoryApi } from '../../api/userstoryApi.js';
 
-export default function SprintAssignUS({ sprint }) {
+export default function SprintAssignUS({ sprint, onUpdated }) {
     const [userStories, setUserStories] = useState([]);
     const [selectedUserStories, setSelectedUserStories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,9 +19,7 @@ export default function SprintAssignUS({ sprint }) {
         try {
             setLoading(true);
             const res = await getUserStoriesByProject(sprint.project);
-            console.log(res.data);
             setUserStories(res.data);
-            console.log(userStories);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -31,8 +29,8 @@ export default function SprintAssignUS({ sprint }) {
 
     const assignUSToSprint = async (usId) => {
         try {
-            console.log(usId);
             await assignUserStoriesToSprint(sprint._id, usId);
+            await onUpdated();
         } catch (err) {
             setError(err.message);
         }

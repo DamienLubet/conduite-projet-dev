@@ -35,15 +35,6 @@ export default function SprintCard({
         <div>
             <div className="sprint-card" onClick={() => setModalState({ type: 'EDIT', data: sprint })}>
                 <div className="sprint-card-header">
-                    <button
-                        onClick={(e) => toggleUserStory(e)}
-                        className="expand-tasks-button"
-                        style={{ transform: expandedSprint ? 'rotate(90deg)' : 'rotate(0deg)' }}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
 
                     <div className="sprint-card-header-left">
                         <span className="sprint-name">{sprint.name}</span>
@@ -63,10 +54,22 @@ export default function SprintCard({
                     }}>Add US</button>
             </div>
 
+            <button
+                onClick={(e) => toggleUserStory(e)}
+                className="expand-tasks-button"
+                style={{ transform: expandedSprint ? 'rotate(90deg)' : 'rotate(0deg)' }}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+
             {expandedSprint && sprint.userStories.map((us) => (
-                <UsersStoryList
-                    userStories={us}
-                />)
+                <div key={us._id} >
+                    <UsersStoryCard
+                        story={us}
+                    />
+                </div>)
             )}
 
             {/* --- MODALS SECTION --- */}
@@ -74,10 +77,10 @@ export default function SprintCard({
             {addUSModal && (
                 <SprintAssignUS
                     sprint={sprint}
-                    onCancel={() => setShowTaskModal(false)}
-                    onCreated={async () => {
-                        setShowTaskModal(false);
-                        await fetchTasks(); 
+                    onCancel={() => setAddUSModal(false)}
+                    onUpdated={async () => {
+                        setAddUSModal(false);
+                        await onUpdated();
                     }}
                 />
             )}
