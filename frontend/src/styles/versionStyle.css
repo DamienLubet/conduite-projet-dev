@@ -1,4 +1,3 @@
-/* VersionList styles */
 .version-page {
   display: flex;
   flex-direction: column;
@@ -12,6 +11,7 @@
   padding: 1rem 1.2rem;
   background: #1b1c1d;
   border-radius: 6px;
+  margin-bottom: 2rem;
 }
 
 .version-list-container h3 {
@@ -49,3 +49,4 @@
   color: #e5e7eb;
   font-size: 0.95rem;
 }
+
