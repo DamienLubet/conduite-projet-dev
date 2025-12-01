@@ -18,24 +18,32 @@ export default function ProjectSettings() {
     return (
         <div className="project-settings">
             <h2>Settings</h2>
-            
-            <ProjectEdit
-                project={project} 
-                setProject={setProject} 
-            />
 
-            <hr className="divider" />
+            <section className="section-block">
+              <div className="section-header">General</div>
+              <ProjectEdit
+                  project={project} 
+                  setProject={setProject} 
+              />
+            </section>
 
-            <ProjectMemberSettings 
-                project={project} 
-                setProject={setProject} 
-            />
+            <section className="section-block">
+              <div className="section-header">Members</div>
+              <ProjectMemberSettings 
+                  project={project} 
+                  setProject={setProject} 
+              />
+            </section>
             
-           <hr className="divider" />
-            
-            <button className="danger-button" onClick={async () => {
-              setDeleting(true);
-            }}> Delete Project </button>
+            <section className="danger-zone">
+              <div className="danger-zone-text">
+                <strong>Danger zone</strong>
+                <div>Deleting this project will permanently remove all related sprints, user stories and tasks.</div>
+              </div>
+              <button className="danger-button" onClick={async () => {
+                setDeleting(true);
+              }}>Delete project</button>
+            </section>
 
             {deleting && (
               <ProjectDeleteConfirm 
