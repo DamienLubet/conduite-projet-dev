@@ -36,7 +36,10 @@ export default function SprintForm({
         setError(null);
         try {
             const payload = {
-                name: name.trim()
+                name: name.trim(),
+                description: description.trim(),
+                startDate: startDate,
+                endDate: endDate
             };
 
             await onSubmit(payload);

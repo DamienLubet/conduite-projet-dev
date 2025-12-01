@@ -1,4 +1,4 @@
-import SprintForm from './SprintList.jsx';
+import SprintForm from './SprintForm.jsx';
 
 export default function SprintCreate({ projectId, createSprint, onCreated, onCancel }) {
 
