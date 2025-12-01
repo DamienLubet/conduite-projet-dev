@@ -22,6 +22,13 @@ export default function SprintCard({
         setExpandedSprint(prev => !prev);
     };
 
+    function getDateString(dateStr) {
+        const date = new Date(dateStr);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
     return (
         <div>
             <div className="sprint-card" onClick={() => setModalState({ type: 'EDIT', data: sprint })}>
@@ -39,9 +46,9 @@ export default function SprintCard({
                     <div className="sprint-card-header-left">
                         <span className="sprint-name">{sprint.name}</span>
                     </div>
-
-                    <span className={`sprint-date`}>Start: {sprint.startDate}</span>
-                    <span className="sprint-date">End: {sprint.endDate}</span>
+                    
+                    <span className={`sprint-date`}>Start: {getDateString(sprint.startDate)}</span>
+                    <span className="sprint-date">End: {getDateString(sprint.endDate)}</span>
                 </div>
 
                 {sprint.description && (<p className="sprint-description">{sprint.description}</p>)}

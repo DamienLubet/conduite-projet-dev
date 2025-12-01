@@ -35,6 +35,11 @@ export default function SprintForm({
         setLoading(true);
         setError(null);
         try {
+            if(new Date(startDate) > new Date(endDate)) {
+                setError('End date must be after start date');
+                setLoading(false);
+                return;
+            }
             const payload = {
                 name: name.trim(),
                 description: description.trim(),
@@ -56,7 +61,7 @@ export default function SprintForm({
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
             <div className="form-group">
-                <label htmlFor="sprint-name">Name *</label>
+                <label htmlFor="sprint-name">Name</label>
                 <input
                     id="sprint-name"
                     type="text"
@@ -68,7 +73,7 @@ export default function SprintForm({
             </div>
 
             <div className="form-group">
-                <label htmlFor="sprint-description">Description *</label>
+                <label htmlFor="sprint-description">Description</label>
                 <input
                     id="sprint-description"
                     type="text"
@@ -80,7 +85,7 @@ export default function SprintForm({
             </div>
 
             <div className="form-group">
-                <label htmlFor="sprint-start">Start date *</label>
+                <label htmlFor="sprint-start">Start date</label>
                 <input
                     id="sprint-start"
                     type="date"
@@ -92,7 +97,7 @@ export default function SprintForm({
             </div>
 
             <div className="form-group">
-                <label htmlFor="sprint-end">End date *</label>
+                <label htmlFor="sprint-end">End date</label>
                 <input
                     id="sprint-end"
                     type="date"
