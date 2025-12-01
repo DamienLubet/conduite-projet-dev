@@ -1,4 +1,4 @@
-import SprintForm from './SprintForm';
+import SprintForm from './SprintList';
 
 export default function SprintEdit({ sprint, updateSprint, onUpdated, onCancel, onRequestDelete }) {
 
@@ -11,11 +11,11 @@ export default function SprintEdit({ sprint, updateSprint, onUpdated, onCancel, 
     <div className="modal-backdrop">
       <div className="modal">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3>Edit Sprint</h3>
+          <h3>Edit Sprint</h3>
         </div>
-        
-        <SprintForm 
-          initialValues={sprint} 
+
+        <SprintForm
+          initialValues={sprint}
           onSubmit={handleUpdate}
           onCancel={onCancel}
           submitLabel="Update"
