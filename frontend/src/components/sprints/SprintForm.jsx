@@ -7,11 +7,11 @@ export default function SprintForm({
     onDelete,
     submitLabel = 'Save'
 }) {
-    const [name, setName] = useState(initialValues.name || '');
-    const [description, setDescription] = useState(initialValues.name || '');
-    const [startDate, setStart] = useState(initialValues.name || new Date());
-    const [endDate, setEnd] = useState(initialValues.name || new Date() + 1);
 
+    const [name, setName] = useState(initialValues.name || '');
+    const [description, setDescription] = useState(initialValues.description || '');
+    const [startDate, setStart] = useState(initialValues.startDate ? initialValues.startDate.slice(0, 10) : '');
+    const [endDate, setEnd] = useState(initialValues.endDate ? initialValues.endDate.slice(0, 10) : '');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 

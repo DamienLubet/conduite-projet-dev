@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { sprintApi } from '../../api/sprintApi.js';
-import '../../styles/sprintStyle.css';
 import SprintCard from './SprintCard.jsx';
 import SprintCreate from './SprintCreate.jsx';
 import SprintDeleteConfirm from './SprintDeleteConfirm.jsx';
 import SprintEdit from './SprintEdit.jsx';
 
 export default function SprintList() {
-    const { getSprintsByProject, createSprint, updateSprint, deleteSprint } = sprintApi();
+    const { getSprintsByProject, createSprint } = sprintApi();
     const { projectId } = useParams();
 
     const [sprints, setSprints] = useState([]);
@@ -24,7 +23,7 @@ export default function SprintList() {
         setError(null);
         try {
             const res = await getSprintsByProject(projectId);
-            setSprints(res.data);
+            setSprints(res.sprints);
         } catch (err) {
             setError('Failed to load sprints.');
         } finally {
@@ -57,7 +56,9 @@ export default function SprintList() {
                         <SprintCard
                             key={sprint._id}
                             sprint={sprint}
-                            onEdit={() => setModalState({ type: 'EDIT', data: sprint })}
+                            onUpdated={async () => {
+                                await fetchSprints();
+                            }}
                         />
                     ))}
                 </div>
@@ -71,33 +72,6 @@ export default function SprintList() {
                     createSprint={createSprint}
                     onCancel={() => closeModal()}
                     onCreated={async () => {
-                        closeModal();
-                        await fetchSprints();
-                    }}
-                />
-            )}
-
-            {modalState.type === 'EDIT' && (
-                <SprintEdit
-                    story={modalState.data}
-                    updateSprint={updateSprint}
-                    onCancel={() => closeModal()}
-                    onUpdated={async () => {
-                        closeModal();
-                        await fetchSprints();
-                    }}
-                    onRequestDelete={() => {
-                        setModalState({ type: 'DELETE', data: modalState.data });
-                    }}
-                />
-            )}
-
-            {modalState.type === 'DELETE' && (
-                <SprintDeleteConfirm
-                    story={modalState.data}
-                    deleteSprint={deleteSprint}
-                    onCancel={() => closeModal()}
-                    onDeleted={async () => {
                         closeModal();
                         await fetchSprints();
                     }}

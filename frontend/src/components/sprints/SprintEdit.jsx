@@ -1,4 +1,4 @@
-import SprintForm from './SprintList';
+import SprintForm from './SprintForm.jsx';
 
 export default function SprintEdit({ sprint, updateSprint, onUpdated, onCancel, onRequestDelete }) {
 
@@ -19,7 +19,7 @@ export default function SprintEdit({ sprint, updateSprint, onUpdated, onCancel, 
           onSubmit={handleUpdate}
           onCancel={onCancel}
           submitLabel="Update"
-          onRequestDelete={onRequestDelete}
+          onDelete={onRequestDelete}
         />
       </div>
     </div>
