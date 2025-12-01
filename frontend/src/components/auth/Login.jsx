@@ -39,38 +39,40 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <h1>Log in</h1>
-      <form onSubmit={handleSubmit} className="auth-form">
-        <label>
-          Email
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {error && <p className="auth-error">{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Log in'}
-        </button>
-      </form>
-      <p>
-        Don't have an account yet?{' '}
-        <Link to="/register" className="link-button">
-          Sign up
-        </Link>
-      </p>
+    <div className="auth-page">
+      <div className="auth-container">
+        <h1>Log in</h1>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <label>
+            Email
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          {error && <p className="auth-error">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Log in'}
+          </button>
+        </form>
+        <p>
+          Don't have an account yet?{' '}
+          <Link to="/register" className="link-button">
+            Sign up
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
