@@ -1,7 +1,7 @@
 .project-page {
   display: flex;
   width: 100%;
-  min-height: calc(100vh - 157px);
+  min-height: calc(100vh - 57px);
 }
 
 .sidebar {

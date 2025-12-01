@@ -22,15 +22,58 @@ html, body {
 
 .app-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #282c34;
-  color: white;
+  justify-content: space-between;
+  padding: 0 2.25rem;
+  height: 56px;
+  background-color: #1b1c1d;
+  border-bottom: 1px solid #30363d;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+}
+
+.app-header nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-header nav a {
+  text-decoration: none;
 }
 
 .app-header nav button {
-  margin-left: 0.5rem;
+  margin-left: 0.25rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  background-color: #1d2533;
+  border: 1px solid #30363d;
+  color: #e5e7eb;
+  transition: background-color 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease;
+}
+
+.app-header nav button:hover {
+  background-color: #1f2937;
+  border-color: #3b82f6;
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.8);
+  transform: translateY(-1px);
+}
+
+.app-header nav button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.9);
 }
 
 .welcome {
