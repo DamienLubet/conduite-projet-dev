@@ -1,11 +1,12 @@
+import { useOutletContext } from 'react-router-dom';
 import { taskApi } from '../../api/taskApi';
 import TaskForm from './TaskForm';
 
 export default function TaskEdit({ task, onUpdated, onCancel, onRequestDelete }) {
-    //const { project } = useOutletContext() || {};
+    const { project } = useOutletContext() || {};
     const { updateTask, assignTask } = taskApi();
 
-    //if (!project) return null; 
+    if (!project) return null; 
 
     const handleUpdate = async (formData) => {
         await updateTask(task._id, formData);
@@ -21,7 +22,7 @@ export default function TaskEdit({ task, onUpdated, onCancel, onRequestDelete })
                 <h3>Edit Task</h3>
                 <TaskForm 
                     initialValues={task}
-                    //projectMembers={project.members} 
+                    projectMembers={project.members} 
                     onSubmit={handleUpdate}
                     onCancel={onCancel}
                     onDelete={onRequestDelete}

@@ -1,9 +1,10 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from '../components/auth/Login.jsx';
 import Register from '../components/auth/Register.jsx';
-import UserStoryList from '../components/userstories/UserStoryList.jsx';
 import ProjectList from '../components/projects/ProjectList.jsx';
-import ProjectCreate from '../components/projects/ProjectCreate.jsx';
+import ProjectPage from '../components/projects/ProjectPage.jsx';
+import ProjectSettings from '../components/projects/ProjectSettings.jsx';
+import UserStoryList from '../components/userstories/UserStoryList.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
 function PrivateRoute({ children }) {
@@ -48,17 +49,15 @@ export default function AppRoutes() {
         path="/projects/:projectId"
         element={
           <PrivateRoute>
-            <div>Project - Page in construction</div>
-            {/* Here you can add nested routes for project details, user stories, etc. */}
-            <Outlet />
+            <ProjectPage />
           </PrivateRoute>
         }
       >
         <Route index element={<Navigate to="backlog" replace />} />
         <Route path="backlog" element={<UserStoryList />} />
         <Route path="sprints" element={<div>Sprints - Coming soon</div>} />
-        <Route path="tasks" element={<div>Tasks - Coming soon</div>} />
-        <Route path="settings" element={<div>Settings - Coming soon</div>} />
+        <Route path="releases" element={<div>Releases - Coming soon</div>} />
+        <Route path="settings" element={<ProjectSettings />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

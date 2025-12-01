@@ -40,7 +40,7 @@ function App() {
         </nav>
       </header>
 
-      <main className="app-main">
+      <main>
         <AppRoutes />
       </main>
     </div>
