@@ -15,6 +15,7 @@ export const createSprint = async (req, res) => {
         
         const sprint = new Sprint({ name, description, startDate, endDate, project });
         await sprint.save();
+        console.log(`Sprint created: ${sprint._id} for project ${project}`);
         res.status(201).json({ success: true, message: 'Sprint created successfully', sprint });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -27,10 +28,10 @@ export const deleteSprint = async (req, res) => {
         if (sprint.status === 'active' || sprint.status === 'completed') {
             return res.status(400).json({ success: false, message: 'Active or completed sprints cannot be deleted' });
         }
-        await sprint.remove();
+        await sprint.deleteOne();
         res.status(200).json({ success: true, message: 'Sprint deleted successfully' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal server error.' });
+        res.status(500).json({ success: false, message: 'Internal server error.' + error.message });
     }
 };
 
