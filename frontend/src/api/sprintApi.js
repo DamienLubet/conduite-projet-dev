@@ -27,10 +27,11 @@ export const sprintApi = () => {
         });
     }
 
-    const assignUserStoriesToSprint = async (sprintId, userStoryIds) => {
+    const assignUserStoriesToSprint = async (sprintId, userStoriesIDs) => {
+        console.log(userStoriesIDs);
         return await authFetch(`/sprints/${sprintId}/userstories`, {
             method: 'POST',
-            body: JSON.stringify({ userStoryIds }),
+            body: JSON.stringify({ userStoriesIDs }),
         });
     }
 

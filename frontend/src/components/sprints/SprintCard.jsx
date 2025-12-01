@@ -3,6 +3,7 @@ import { sprintApi } from '../../api/sprintApi.js';
 import UsersStoryCard from '../userstories/UserStoryCard.jsx';
 import SprintDeleteConfirm from './SprintDeleteConfirm.jsx';
 import SprintEdit from './SprintEdit.jsx';
+import SprintAssignUS from './SprintAssignUS.jsx';
 
 
 export default function SprintCard({
@@ -15,6 +16,7 @@ export default function SprintCard({
     const [expandedSprint, setExpandedSprint] = useState(false);
 
     const [modalState, setModalState] = useState({ type: null, data: null });
+    const [addUSModal, setAddUSModal] = useState(false);
     const closeModal = () => setModalState({ type: null, data: null });
     
     const toggleUserStory = (e) => {
@@ -54,13 +56,31 @@ export default function SprintCard({
                 {sprint.description && (<p className="sprint-description">{sprint.description}</p>)}
             </div>
 
+            <div className="sprint-card-footer">
+                    <button className='add-US-button' onClick={(e) => {
+                        e.stopPropagation();
+                        setAddUSModal(true);
+                    }}>Add US</button>
+            </div>
+
             {expandedSprint && sprint.userStories.map((us) => (
-                <UsersStoryCard
+                <UsersStoryList
                     userStories={us}
                 />)
             )}
 
             {/* --- MODALS SECTION --- */}
+
+            {addUSModal && (
+                <SprintAssignUS
+                    sprint={sprint}
+                    onCancel={() => setShowTaskModal(false)}
+                    onCreated={async () => {
+                        setShowTaskModal(false);
+                        await fetchTasks(); 
+                    }}
+                />
+            )}
 
             {modalState.type === 'EDIT' && (
                 <SprintEdit
