@@ -1,11 +1,17 @@
+import { useState } from 'react';
 import { versionApi } from '../../api/versionApi';
 import VersionForm from './VersionForm';
 
 export default function VersionEdit({ version, onUpdated, onCancel }) {
   const { updateVersion } = versionApi();
+  const [error, setError] = useState('');
   const handleUpdate = async (formData) => {
-    await updateVersion(version._id, formData);
-    await onUpdated();
+    try {
+      await updateVersion(version._id, formData);
+      await onUpdated();
+    } catch (error) {
+      setError('Failed to update version. ' + error.message);
+    }
   };
 
   return (
