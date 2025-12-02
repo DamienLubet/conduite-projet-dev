@@ -1,6 +1,36 @@
 import UserStory from "../models/userstory.js";
 
-// Create a new user story
+/**
+ * @module UserStoryController
+ * @brief Controllers for managing user stories within projects.
+ *
+ * This module provides functionalities to create, retrieve, update, and delete
+ * user stories associated with projects in a project management context.
+ */
+
+/** Create a new user story
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   title: string,
+ *   description?: string,
+ *   priority?: string,
+ *   storyPoints?: number
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 201 - Created
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string,
+ *   data?: UserStory
+ * }
+ */
 export const createUserStory = async (req, res) => {
     try {
         const projectId = req.params.projectId;
@@ -24,7 +54,20 @@ export const createUserStory = async (req, res) => {
     }
 }
 
-// Get user stories by project ID
+/* Get all user stories for a specific project
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   data?: UserStory[]
+ * }
+ */
 export const getUserStoriesByProject = async (req, res) => {
     try {
         const projectId = req.params.projectId;
@@ -36,7 +79,21 @@ export const getUserStoriesByProject = async (req, res) => {
     }
 }
 
-// Get a single user story by ID
+/* Get a user story by ID
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   data?: UserStory
+ * }
+ */
 export const getUserStoryById = async (req, res) => {
     try {
         const userStoryId = req.params.id;
@@ -51,6 +108,28 @@ export const getUserStoryById = async (req, res) => {
     }
 }
 
+/** Update a user story
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   title?: string,
+ *   description?: string,
+ *   priority?: string,
+ *   storyPoints?: number
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string,
+ *   data?: UserStory
+ * }
+ */
 export const updateUserStory = async (req, res) => {
     try{
     const { title, description, priority, storyPoints } = req.body;
@@ -69,6 +148,20 @@ export const updateUserStory = async (req, res) => {
     }
 }
 
+/** Delete a user story
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const deleteUserStory = async (req, res) => {
     try {
         const userStory = req.userstory; // Retrieved from middleware

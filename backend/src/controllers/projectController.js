@@ -1,6 +1,37 @@
 import Project from '../models/project.js';
 
-// Create a new project
+
+
+/**
+ * @module ProjectController
+ * @brief Project management controllers.
+ *
+ * Handles creation, retrieval, updating, and deletion of projects.
+ */
+
+/**
+ * Create a new project
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   name: string,
+ *   description?: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 201 - Created
+ * 400 - Bad Request
+ * 401 - Unauthorized
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string,
+ *   projectID?: string
+ * }
+ */
 export const createProject = async (req, res) => {
     try {
         const { name } = req.body;
@@ -31,6 +62,24 @@ export const createProject = async (req, res) => {
     }
 }
 
+
+/** * Get project by ID
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 401 - Unauthorized
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   project?: Project,
+ *   message?: string
+ * }
+ */
 export const getProjectbyId = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -56,6 +105,22 @@ export const getProjectbyId = async (req, res) => {
     }
 }
 
+/** Delete a project
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 401 - Unauthorized
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const deleteProject = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -71,7 +136,28 @@ export const deleteProject = async (req, res) => {
     }
 }
 
-// Edit project details
+/** Edit a project
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   name?: string,
+ *   description?: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 401 - Unauthorized
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const editProject = async (req, res) => {
     try {
         const userId = req.user.id;

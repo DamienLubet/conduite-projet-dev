@@ -2,6 +2,36 @@ import Sprint from '../models/sprint.js';
 import Version from '../models/version.js';
 import { newVersion } from '../services/versionService.js';
 
+/**
+ * @module VersionController
+ * @brief Manages version-related operations.
+ * 
+ * Provides functionalities to create, update, and retrieve versions within projects.
+ */
+
+/**
+ * Create a new version
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   description: string,
+ *   sprintId: string,
+ *   type: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 201 - Created
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string,
+ *   version?: Version
+ * }
+ */
 export const createVersion = async (req, res) => {
     try {
         const { description, sprintId, type } = req.body;
@@ -23,6 +53,25 @@ export const createVersion = async (req, res) => {
     }
 };
 
+/** Update an existing version
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   description?: string,
+ *   releaseDate?: Date
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const updateVersion = async (req, res) => {
     try {
         const version = req.version;
@@ -36,6 +85,20 @@ export const updateVersion = async (req, res) => {
     }
 };
 
+/** Get all versions for a specific project
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   versions?: Version[]
+ * }
+ */
 export const getVersionsByProject = async (req, res) => {
     try {
         const projectId = req.params.projectId;

@@ -2,9 +2,37 @@
 import User from "../models/user.js";
 import { generateToken } from "../services/authService.js";
 
+/**
+ * @module AuthController
+ * @brief Authentication controllers.
+ *
+ * Manages user registration and login functionalities.
+ */
 
-
-// Register a new user
+/**
+ * Register a new user
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   username: string,
+ *   email: string,
+ *   password: string
+ * }       
+ * @param {Express.Response} res 
+ * @returns 
+ * 
+ * HTTP Status Codes:
+ * 201 - Created
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ * 
+ */
 export const register = async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -32,7 +60,38 @@ export const register = async (req, res) => {
     }
 };
 
-// Login user and generate JWT token
+/**
+ * Login a user
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   email: string,
+ *   password: string
+ * }       
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 401 - Unauthorized
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   data: {
+ *     token: string,
+ *     user: {
+ *       id: string,
+ *       username: string,
+ *       email: string
+ *     }
+ *   } | null,
+ *   message: string
+ * }
+ * 
+ */
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;

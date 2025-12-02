@@ -1,5 +1,28 @@
 import Project from '../models/project.js';
 
+/**
+ * @module UserController
+ * @brief User-related controllers.
+ *
+ * Manages user-specific operations such as retrieving user projects.
+ */
+
+/**
+ * Get all projects for the authenticated user
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 401 - Unauthorized
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   projects?: Project[]
+ * }
+ */
 export const getUserProjects = async (req, res) => {
     try {
         const userId = req.user.id;
