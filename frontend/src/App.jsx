@@ -1,10 +1,13 @@
 // src/App.jsx
 import { Link, useNavigate } from 'react-router-dom';
-import './App.css';
 import { useAuth } from './context/AuthContext.jsx';
 import AppRoutes from './routes/AppRoutes.jsx';
+import './styles/App.css';
 import './styles/modalStyle.css';
 
+/** Root component of the application.
+ * @returns {React.ReactNode} The application component.
+ */
 function App() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
