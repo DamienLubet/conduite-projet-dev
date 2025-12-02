@@ -7,15 +7,15 @@ import ProjectCreate from './ProjectCreate.jsx';
 export default function ProjectList() {
     const { getProjects } = projectApi();
     const navigate = useNavigate();
-    
+
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    
+
     // Modal states  :  Create
     const [modalState, setModalState] = useState({ type: null, data: null });
     const closeModal = () => setModalState({ type: null, data: null });
-    
+
     const fetchProjects = async () => {
         setLoading(true);
         setError(null);
@@ -52,7 +52,7 @@ export default function ProjectList() {
                 
                 <div className="project-card-column">
                     {Array.isArray(projects) && projects.map((project) => (
-                        
+
                         <div
                             key={project.id || project._id}
                             className="project-card"
@@ -77,7 +77,6 @@ export default function ProjectList() {
                     onCancel={() => closeModal()}
                     onCreated={async () => {
                         closeModal();
-                        await fetchProjects();
                     }}
                 />
             )}
