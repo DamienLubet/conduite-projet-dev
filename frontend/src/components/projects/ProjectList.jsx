@@ -4,6 +4,11 @@ import { projectApi } from '../../api/projectApi';
 import '../../styles/projectStyle.css';
 import ProjectCreate from './ProjectCreate.jsx';
 
+/**
+ * Component to display a list of projects.
+ * Handles fetching projects, displaying them, and managing modals for project creation.
+ * @return {JSX.Element} The rendered ProjectList component.
+ */
 export default function ProjectList() {
     const { getProjects } = projectApi();
     const navigate = useNavigate();
@@ -16,6 +21,11 @@ export default function ProjectList() {
     const [modalState, setModalState] = useState({ type: null, data: null });
     const closeModal = () => setModalState({ type: null, data: null });
 
+    /**
+     * Fetches the list of projects from the API.
+     *
+     * @return {Promise<void>}
+     */
     const fetchProjects = async () => {
         setLoading(true);
         setError(null);

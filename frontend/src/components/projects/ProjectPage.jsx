@@ -3,6 +3,12 @@ import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { projectApi } from "../../api/projectApi";
 import "../../styles/projectPageStyle.css";
 
+/**
+ * Component to display a specific project's page.
+ * Handles fetching project data and rendering navigation and content.
+ * 
+ * @return {JSX.Element} The rendered Project component.
+ */
 export default function Project() {
     const { getProjectById } = projectApi();
     const { projectId } = useParams();
@@ -12,6 +18,11 @@ export default function Project() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    /**
+     * Fetches the project data by ID.
+     *
+     * @return {Promise<void>}
+     */
     const fetchProject = async () => {
         setLoading(true);
         setError(null);
@@ -29,6 +40,12 @@ export default function Project() {
         fetchProject();
     }, [projectId]);
 
+    /**
+     * Determines the active class for navigation links.
+     *
+     * @param {string} path - The path to check against the current location.
+     * @return {string} The active class name if the path matches, otherwise an empty string.
+     */
     const getClass = (path) => {
         return location.pathname.includes(path) ? "active" : "";
     };

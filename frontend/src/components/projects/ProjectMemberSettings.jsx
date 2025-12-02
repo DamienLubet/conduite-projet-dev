@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { projectApi } from '../../api/projectApi';
 
+/**
+ * Component for managing project member settings.
+ * Allows inviting members, changing roles, and removing members.
+ * 
+ * @param {Object} props
+ * @param {Object} props.project - The project data including members.
+ * @param {Function} props.setProject - Function to update the project state in the parent component.
+ * @return {JSX.Element} The rendered ProjectMemberSettings component.
+ */
 export default function ProjectMemberSettings({ project, setProject }) {
   const { addProjectMember, removeProjectMember, changeProjectMemberRole, getProjectById } = projectApi();
 
@@ -11,6 +20,12 @@ export default function ProjectMemberSettings({ project, setProject }) {
   const projectId = project._id || project.id;
   const members = project.members || [];
 
+  /**
+   * Handles inviting a new member to the project.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} e - Form submit event.
+   * @return {Promise<void>}
+   */
   const handleInvite = async (e) => {
     e.preventDefault();
     if (!inviteIdentifier.trim()) return;
@@ -39,6 +54,13 @@ export default function ProjectMemberSettings({ project, setProject }) {
     }
   };
 
+  /**
+   * Handles changing the role of an existing member.
+   *
+   * @param {Object} member - The member whose role is to be changed.
+   * @param {string} newRole - The new role to assign to the member.
+   * @return {Promise<void>}
+   */
   const handleChangeRole = async (member, newRole) => {
     try {
       setMemberError('');
@@ -63,6 +85,12 @@ export default function ProjectMemberSettings({ project, setProject }) {
     }
   };
 
+  /**
+   * Handles removing a member from the project.
+   *
+   * @param {Object} member - The member to remove.
+   * @return {Promise<void>}
+   */
   const handleRemove = async (member) => {
     try {
       setMemberError('');
