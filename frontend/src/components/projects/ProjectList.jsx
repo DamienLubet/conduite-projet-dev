@@ -7,15 +7,15 @@ import ProjectCreate from './ProjectCreate.jsx';
 export default function ProjectList() {
     const { getProjects } = projectApi();
     const navigate = useNavigate();
-    
+
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    
+
     // Modal states  :  Create
     const [modalState, setModalState] = useState({ type: null, data: null });
     const closeModal = () => setModalState({ type: null, data: null });
-    
+
     const fetchProjects = async () => {
         setLoading(true);
         setError(null);
@@ -48,19 +48,23 @@ export default function ProjectList() {
                         Create Project
                     </button>
                 </div>
+                <hr className="project-header-divider" />
                 
                 <div className="project-card-column">
                     {Array.isArray(projects) && projects.map((project) => (
-                        
+
                         <div
                             key={project.id || project._id}
                             className="project-card"
                             onClick={() => navigate(`/projects/${project.id || project._id}`)}
                         >
-                            
-                                <h4>{project.name}</h4>
-                                <p>{project.description}</p>
-                            
+                            <div className="project-card-header">
+                                <h4 className="project-title">{project.name}</h4>
+                                <span className="project-owner">
+                                    {project.owner?.username}
+                                </span>
+                            </div>
+                            <p>{project.description}</p>
                         </div>
                     ))}
                 </div>
@@ -73,7 +77,6 @@ export default function ProjectList() {
                     onCancel={() => closeModal()}
                     onCreated={async () => {
                         closeModal();
-                        await fetchProjects();
                     }}
                 />
             )}

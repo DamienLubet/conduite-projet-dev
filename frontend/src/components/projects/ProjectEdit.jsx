@@ -5,20 +5,24 @@ import ProjectForm from './ProjectForm';
 export default function ProjectEdit({ project, setProject }) {
     const { updateProject } = projectApi();
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
     const handleSave = async (formData) => {
-        const res = await updateProject(project._id, formData);
-        if (res?.success) {
-            setMessage('Saved successfully!');
-            setProject(prev => ({ ...prev, ...formData }));
+        try {
+            const res = await updateProject(project._id, formData);
+            if (res?.success) {
+                setMessage('Saved successfully!');
+                setProject(prev => ({ ...prev, ...formData }));
+            }
+        } catch (error) {
+            setError(error.message || 'Failed to save project.');
         }
     };
 
     return (
-        <section className="project-edit">
-            <h3>General</h3>
-            {message && <div className="success">{message}</div>}
-            
+        <div className="project-edit">
+            {message && <div className="project-edit-success">{message}</div>}
+            {error && <p className="error-text">{error}</p>}
             <ProjectForm 
                 initialValues={project}
                 onSubmit={handleSave}
@@ -26,7 +30,6 @@ export default function ProjectEdit({ project, setProject }) {
                 submitLabel="Save"
                 isEditMode={true}
             />
-
-        </section>
+        </div>
     );
 }

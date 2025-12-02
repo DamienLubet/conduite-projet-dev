@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { projectApi } from '../../api/projectApi';
 
 export default function ProjectMemberSettings({ project, setProject }) {
-    console.log('ProjectMemberSettings render with project:', project);
   const { addProjectMember, removeProjectMember, changeProjectMemberRole, getProjectById } = projectApi();
 
   const [inviteIdentifier, setInviteIdentifier] = useState('');
@@ -87,8 +86,7 @@ export default function ProjectMemberSettings({ project, setProject }) {
   };
 
   return (
-    <section className="project-settings-section">
-      <h3>Members</h3>
+    <div className="project-members-settings">
       <p className="info-text">Invite users by username or email and manage their roles.</p>
       
       <form onSubmit={handleInvite} className="members-form">
@@ -106,7 +104,7 @@ export default function ProjectMemberSettings({ project, setProject }) {
           <option value="Developer">Developer</option>
           <option value="Viewer">Viewer</option>
         </select>
-        <button type="submit" className="primary-button small">Invite</button>
+        <button type="submit" className="invite-button">Invite</button>
       </form>
 
       {memberError && <p className="error-text">{memberError}</p>}
@@ -144,6 +142,6 @@ export default function ProjectMemberSettings({ project, setProject }) {
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }

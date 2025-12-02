@@ -37,11 +37,12 @@ export default function Register() {
   };
 
   return (
-    <div className="auth-container">
-      <h1>Sign up</h1>
-      <form onSubmit={handleSubmit} className="auth-form">
-        <label>
-          Username
+    <div className="auth-page">
+      <div className="auth-container">
+        <h1>Sign up</h1>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <label>
+            Username
           <input
             type="text"
             value={username}
@@ -77,7 +78,8 @@ export default function Register() {
         <Link to="/login" className="link-button">
           Log in
         </Link>
-      </p>
+        </p>
+      </div>
     </div>
   );
 }

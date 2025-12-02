@@ -61,9 +61,9 @@ export default function ProjectForm({
                 <>
                     <div className="form-group">
                         <label htmlFor="project-description">Description</label>
-                        <input
+                        <textarea
                             id="project-description"
-                            type="text"
+                            className="project-description-input"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             disabled={loading}
