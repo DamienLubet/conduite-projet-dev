@@ -1,8 +1,22 @@
-// src/components/tasks/TaskForm.jsx
+import { set } from 'mongoose';
 import { useState } from 'react';
 
 const STATUS_OPTIONS = ['To Do', 'In Progress', 'Done'];
 
+/**
+ * Reusable form component for creating and editing tasks.
+ * Handles form state, validation, and submission.
+ * 
+ * @param {Object} props
+ * @param {Object} props.initialValues - Initial values for the form fields.
+ * @param {Function} props.onSubmit - Function to call on form submission.
+ * @param {Function} [props.onCancel] - Optional function to call on cancel action.
+ * @param {Function} [props.onDelete] - Optional function to call on delete action.
+ * @param {Array} props.projectMembers - List of project members for assignment.
+ * @param {string} [props.submitLabel='Save'] - Label for the submit button.
+ * @param {boolean} [props.isEditMode=false] - Flag indicating if the form is in edit mode.
+ * @returns {JSX.Element} The rendered TaskForm component.
+ */
 export default function TaskForm({ 
     initialValues = {}, 
     onSubmit, 
@@ -21,6 +35,12 @@ export default function TaskForm({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    /**
+     * Handles form submission.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} e - Form submit event.
+     * @return {Promise<void>}
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!title.trim()) {
@@ -40,11 +60,9 @@ export default function TaskForm({
                 description: description.trim(),
                 ...(isEditMode && { status, assignedTo: assignedTo})
             };
-            
             await onSubmit(payload);
         } catch (err) {
-            console.error(err);
-            setError('An error occurred.');
+            setError(err.message || 'An error occurred');
         } finally {
             setLoading(false);
         }

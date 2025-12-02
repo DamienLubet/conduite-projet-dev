@@ -3,6 +3,14 @@ import '../../styles/taskStyle.css';
 import TaskDeleteConfirm from './TaskDeleteConfirm.jsx';
 import TaskEdit from './TaskEdit.jsx';
 
+/**
+ * Component to display a list of tasks within a user story.
+ * @param {Object} props
+ * @param {Array} props.tasks - The list of tasks to display.
+ * @param {string} props.userStoryNumber - The number of the user story for task numbering.
+ * @param {Function} props.onUpdated - Callback function to invoke after task updates.
+ * @return {JSX.Element} The rendered TaskList component.
+ */
 export default function TaskList({ tasks, userStoryNumber, onUpdated }) {
     // Modal states : Edit, Delete
     const [modalState, setModalState] = useState({ type: null, data: null });
