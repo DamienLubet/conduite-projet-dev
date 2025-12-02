@@ -53,7 +53,8 @@ export default function UserStoryForm({
   };
 
   return (
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      {error && <p className="error-text">{error}</p>}
           <div className="form-group">
                 <label htmlFor="us-edit-title">Title</label>
                 <input
