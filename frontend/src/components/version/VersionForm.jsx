@@ -27,7 +27,8 @@ export default function VersionForm({
     const [type, setType] = useState(TYPE.MINOR);
     const [description, setDescription] = useState(initialValues.description || '');
     const [releaseDate, setReleaseDate] = useState(initialValues.releaseDate ? initialValues.releaseDate.slice(0, 10) : '');
-  
+    
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     
     /**
@@ -46,11 +47,11 @@ export default function VersionForm({
         };
           await onSubmit(payload);
       } catch (err) {
-            setError('An error occurred.');
+            setError(err.message || 'Error submitting form.');
       } finally {
           setLoading(false);
       }
-  };
+    };
     
     return (
         <form onSubmit={handleSubmit}>
