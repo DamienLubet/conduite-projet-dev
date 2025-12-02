@@ -1,5 +1,15 @@
 import { useState } from 'react';
 
+/**
+ * Component for creating or editing a user story.
+ * @param {Object} props - Component properties.
+ * @param {Object} [props.initialValues={}] - Initial values for the form fields.
+ * @param {Function} props.onSubmit - Callback function to handle form submission.
+ * @param {Function} props.onCancel - Callback function to handle form cancellation.
+ * @param {string} [props.submitLabel='Save'] - Label for the submit button.
+ * @param {Function} [props.onRequestDelete] - Optional callback function to handle deletion request.
+ * @returns {JSX.Element} The rendered UserStoryForm component.
+ */
 export default function UserStoryForm({ 
   initialValues = {}, 
   onSubmit, 
@@ -36,7 +46,7 @@ export default function UserStoryForm({
       await onSubmit(payload);
       
     } catch (err) {
-      setError('An error occurred.');
+      setError(err.message || 'Failed to save user story');
     } finally {
       setLoading(false);
     }
