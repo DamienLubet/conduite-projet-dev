@@ -1,5 +1,12 @@
-// Middleware to resolve projectId from various request parameters
-// Will find the project associated with the multiple models if needed
+/**
+ * Middleware to resolve project ID from request objects.
+ * Checks for userstory, task, sprint, or version in the request
+ * and sets req.projectId accordingly.
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {Function} next 
+ */
 export default async function resolveProjectId(req, res, next) {
     try {
         if (req.userstory) {

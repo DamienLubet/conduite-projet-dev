@@ -1,5 +1,16 @@
 import Project from '../models/project.js';
 
+/**
+ * Middleware to require specific user roles within a project.
+ * Checks if the authenticated user has one of the allowed roles in the project.
+ * If not, responds with 403 Forbidden.
+ */
+
+/** Check user role middleware
+ * @param {string[]} allowedRoles - Array of roles that are allowed access.
+ * @param {string} failMessage - Message to return if the user does not have the required role.
+ * @returns {Function} Express middleware function.
+ */
 const checkRole = (allowedRoles, failMessage) => {
     return async (req, res, next) => {
         const userId = req.user.id;
@@ -36,16 +47,25 @@ const checkRole = (allowedRoles, failMessage) => {
     };
 };
 
+/**
+ * Predefined role-checking middleware for Scrum Master.
+ */
 export const requireScrumMaster = checkRole(
     ['Scrum Master'],
     'Forbidden. Scrum Master role required.'
 );
 
+/**
+ * Predefined role-checking middleware for Developer.
+ */
 export const requireDeveloper = checkRole(
     ['Developer', 'Scrum Master'],
     'Forbidden. Developer role required.'
 );
 
+/** 
+ * Predefined role-checking middleware for any project member.
+ */
 export const requireToBeMember = checkRole(
     ['Developer', 'Scrum Master', 'Viewer'],
     'Forbidden. Not a project member.'

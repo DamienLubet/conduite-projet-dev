@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
-// Middleware to check if a document exists in the database by ID
+/**
+ * Middleware to check if a document exists in the database.
+ * @param {mongoose.Model} model - Mongoose model to check against.
+ * @param {string} idParam - The request parameter that contains the document ID.
+ * @returns {Function} Express middleware function.
+ */
 export default function exists(model, idParam) {
     return (req, res, next) => {
         const id = req.params[idParam];
