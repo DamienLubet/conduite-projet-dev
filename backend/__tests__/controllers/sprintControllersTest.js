@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { assignUserStoriesToSprint, completeSprint, createSprint, getSprintsByProject, startSprint, updateSprint } from "../../src/controllers/sprintController.js";
+import { assignUserStoriesToSprint, completeSprint, createSprint, deleteSprint, getSprintsByProject, startSprint, updateSprint } from "../../src/controllers/sprintController.js";
 import Sprint from "../../src/models/sprint.js";
 import UserStory from "../../src/models/userstory.js";
 import Version from "../../src/models/version.js";
@@ -358,5 +358,32 @@ describe("SprintController - completeSprint", () => {
         expect(version).not.toBeNull();
         expect(version.sprint.toString()).toBe(sprintId.toString());
         expect(version.tag).toBe('v1.0.0');
+    });
+});
+
+describe("SprintController - deleteSprint", () => {
+    let req, res, sprintId, sprint;
+
+    beforeEach(async () => {
+        sprint = await new Sprint({ name: "Sprint 1", project: new mongoose.Types.ObjectId(), startDate: new Date("2024-01-01"), endDate: new Date("2024-01-15") }).save();
+        sprintId = sprint._id;
+        req = { params: { sprintId: sprintId }, sprint: sprint };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+    });
+
+    it("should delete a sprint successfully", async () => {
+        await deleteSprint(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            success: true,
+            message: 'Sprint deleted successfully'
+        }));
+
+        const deletedSprint = await Sprint.findById(sprintId);
+        expect(deletedSprint).toBeNull();
     });
 });

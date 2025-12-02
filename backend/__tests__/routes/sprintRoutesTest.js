@@ -213,4 +213,27 @@ describe("Sprint Routes", () => {
             expect(updatedSprint.status).toBe("completed");
         });
     });
+
+    describe("DELETE /sprints/:sprintId", () => {
+        it("should delete a sprint", async () => {
+            const sprint = new Sprint({
+                name: "Sprint 1",
+                description: "First sprint",
+                startDate: "2024-01-01",
+                endDate: "2024-01-15",
+                project: projectId
+            });
+            await sprint.save();
+
+            const res = await request(app)
+                .delete(`/sprints/${sprint._id}`)
+                .set("Authorization", `Bearer ${token}`);
+            expect(res.statusCode).toEqual(200);
+            expect(res.body).toHaveProperty("message");
+            expect(res.body.message).toBe("Sprint deleted successfully");
+
+            const deletedSprint = await Sprint.findById(sprint._id);
+            expect(deletedSprint).toBeNull();
+        });
+    });
 });
