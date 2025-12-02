@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { sprintApi } from '../../api/sprintApi.js';
 import UsersStoryCard from '../userstories/UserStoryCard.jsx';
+import SprintAssignUS from './SprintAssignUS.jsx';
 import SprintDeleteConfirm from './SprintDeleteConfirm.jsx';
 import SprintEdit from './SprintEdit.jsx';
-import SprintAssignUS from './SprintAssignUS.jsx';
 
 
 export default function SprintCard({
@@ -37,6 +37,15 @@ export default function SprintCard({
                 <div className="sprint-card-header">
 
                     <div className="sprint-card-header-left">
+                        <button
+                            onClick={(e) => toggleUserStory(e)}
+                            className="expand-tasks-button"
+                            style={{ transform: expandedSprint ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                        >
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
                         <span className="sprint-name">{sprint.name}</span>
                     </div>
                     
@@ -45,31 +54,22 @@ export default function SprintCard({
                 </div>
 
                 {sprint.description && (<p className="sprint-description">{sprint.description}</p>)}
-            </div>
 
-            <div className="sprint-card-footer">
+                <div className="sprint-card-footer">
                     <button className='add-US-button' onClick={(e) => {
                         e.stopPropagation();
                         setAddUSModal(true);
-                    }}>Add US</button>
+                    }}>Assign US</button>
+                </div>
             </div>
 
-            <button
-                onClick={(e) => toggleUserStory(e)}
-                className="expand-tasks-button"
-                style={{ transform: expandedSprint ? 'rotate(90deg)' : 'rotate(0deg)' }}
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </button>
-
-            {expandedSprint && sprint.userStories.map((us) => (
-                <div key={us._id} >
-                    <UsersStoryCard
-                        story={us}
-                    />
-                </div>)
+            
+            {expandedSprint && (
+                <div className="sprint-us-list">
+                    {sprint.userStories.map((us) => (
+                    <UsersStoryCard key={us._id} story={us} sprint={true} />
+                    ))}
+                </div>
             )}
 
             {/* --- MODALS SECTION --- */}

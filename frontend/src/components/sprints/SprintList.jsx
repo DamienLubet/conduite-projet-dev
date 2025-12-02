@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { sprintApi } from '../../api/sprintApi.js';
+import '../../styles/sprintStyle.css';
 import SprintCard from './SprintCard.jsx';
 import SprintCreate from './SprintCreate.jsx';
-import SprintDeleteConfirm from './SprintDeleteConfirm.jsx';
-import SprintEdit from './SprintEdit.jsx';
 
 export default function SprintList() {
     const { getSprintsByProject, createSprint } = sprintApi();

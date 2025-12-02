@@ -48,7 +48,8 @@ export default function ProjectList() {
                         Create Project
                     </button>
                 </div>
-
+                <hr className="project-header-divider" />
+                
                 <div className="project-card-column">
                     {Array.isArray(projects) && projects.map((project) => (
 
@@ -57,10 +58,13 @@ export default function ProjectList() {
                             className="project-card"
                             onClick={() => navigate(`/projects/${project.id || project._id}`)}
                         >
-
-                            <h4>{project.name}</h4>
+                            <div className="project-card-header">
+                                <h4 className="project-title">{project.name}</h4>
+                                <span className="project-owner">
+                                    {project.owner?.username}
+                                </span>
+                            </div>
                             <p>{project.description}</p>
-
                         </div>
                     ))}
                 </div>

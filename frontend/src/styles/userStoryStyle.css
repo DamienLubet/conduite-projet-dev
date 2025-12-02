@@ -11,6 +11,7 @@
   padding: 1rem 1.2rem;
   background: #1b1c1d;
   border-radius: 6px;
+  margin-bottom: 2rem;
 }
 
 .userstory-header {
@@ -173,3 +174,4 @@
   align-items: center;
   padding: 2px;
 }
+

@@ -5,7 +5,8 @@ import TaskList from '../tasks/TaskList.jsx';
 
 export default function UserStoryCard({ 
     story, 
-    onEdit
+    onEdit,
+    sprint = false
 }) {
     const { getTasksByUserStory } = taskApi();
     const [tasks, setTasks] = useState([]);
@@ -42,15 +43,16 @@ export default function UserStoryCard({
         <div>
             <div className="userstory-card" onClick={() => onEdit(story)}>
                 <div className="userstory-card-header">
-                    <button 
-                        onClick={(e) => toggleTasks(e)}
-                        className="expand-tasks-button"
-                        style={{transform: expandedStory ? 'rotate(90deg)' : 'rotate(0deg)'}}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
+                    {!sprint && (
+                        <button
+                            onClick={(e) => toggleTasks(e)}
+                            className="expand-tasks-button"
+                            style={{ transform: expandedStory ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>)}
     
                     <div className="userstory-card-header-left">
                         <span className="userstory-number">US{story.number}</span>
@@ -63,12 +65,12 @@ export default function UserStoryCard({
                 
                 {story.description && (<p className="userstory-description">{story.description}</p>)}
                 
-                <div className="userstory-card-footer">
+                {!sprint && <div className="userstory-card-footer">
                     <button className='create-task-button' onClick={(e) => {
                         e.stopPropagation();
                         setShowTaskModal(true);
                     }}>New Task</button>
-                </div>
+                </div>}
             </div>
             
             {expandedStory && (
