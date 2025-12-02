@@ -95,7 +95,6 @@ export default function SprintForm({
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     disabled={loading}
-                    required
                 />
             </div>
 
