@@ -71,6 +71,7 @@
 .sprint-card-header {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	gap: 0.75rem;
 }
 
@@ -78,6 +79,12 @@
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
+}
+
+.sprint-card-header-right {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }
 
 .sprint-name {
@@ -173,4 +180,34 @@
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
 	overflow: hidden;
+}
+
+.sprint-status {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  background: rgba(148, 163, 184, 0.1);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.sprint-button{
+  background-color: #1d2533;
+  color: #f9fafb;
+  border: 1px solid #2563eb;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.sprint-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  border-color: #4b5563;
+  background-color: #111827;
 }

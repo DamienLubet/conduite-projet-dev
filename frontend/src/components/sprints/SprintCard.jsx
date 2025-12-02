@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { sprintApi } from '../../api/sprintApi.js';
 import UsersStoryCard from '../userstories/UserStoryCard.jsx';
+import VersionCreate from '../version/VersionCreate.jsx';
 import SprintAssignUS from './SprintAssignUS.jsx';
 import SprintDeleteConfirm from './SprintDeleteConfirm.jsx';
 import SprintEdit from './SprintEdit.jsx';
@@ -10,7 +11,7 @@ export default function SprintCard({
     sprint,
     onUpdated
 }) {
-    const { updateSprint, deleteSprint } = sprintApi();
+    const { updateSprint, deleteSprint, startSprint } = sprintApi();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [expandedSprint, setExpandedSprint] = useState(false);
@@ -18,10 +19,28 @@ export default function SprintCard({
     const [modalState, setModalState] = useState({ type: null, data: null });
     const [addUSModal, setAddUSModal] = useState(false);
     const closeModal = () => setModalState({ type: null, data: null });
+
+    const isActive = sprint.status === 'active';
+    const isCompleted = sprint.status === 'completed';
     
     const toggleUserStory = (e) => {
         e.stopPropagation();
         setExpandedSprint(prev => !prev);
+    };
+
+    const handleActivate = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            console.log('Activating sprint', sprint);
+            await startSprint(sprint._id);
+            await onUpdated();
+            console.log('Sprint activated:', sprint);
+        } catch (error) {
+            setError(error.message || 'Failed to activate sprint.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     function getDateString(dateStr) {
@@ -33,7 +52,9 @@ export default function SprintCard({
     }
     return (
         <div>
-            <div className="sprint-card" onClick={() => setModalState({ type: 'EDIT', data: sprint })}>
+            <div className="sprint-card" onClick={sprint.status === 'completed'
+                                                    ? undefined
+                                                    : () => setModalState({ type: 'EDIT', data: sprint })}>
                 <div className="sprint-card-header">
 
                     <div className="sprint-card-header-left">
@@ -46,19 +67,32 @@ export default function SprintCard({
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </button>
-                        <span className="sprint-name">{sprint.name}</span>
+                        <span className="sprint-name">Sprint {sprint.number}: {sprint.name}</span>
                     </div>
-                    
-                    <span className={`sprint-date`}>Start: {getDateString(sprint.startDate)}</span>
-                    <span className="sprint-date">End: {getDateString(sprint.endDate)}</span>
+
+                    <div className="sprint-card-header-right">
+                        <span className={`sprint-date`}>Start: {getDateString(sprint.startDate)}</span>
+                        <span className="sprint-date">End: {getDateString(sprint.endDate)}</span>
+                        <span className={`sprint-status`}>{sprint.status}</span>
+                        <button className="sprint-button" disabled={isActive || isCompleted} onClick={(e) => {
+                            e.stopPropagation();
+                            handleActivate();
+                        }}>Start</button>
+                        <button className="sprint-button" disabled={ isCompleted || !isActive} onClick={(e) => {
+                            e.stopPropagation();
+                            setModalState({ type: 'COMPLETE', data: sprint });
+                        }}>End</button>
+                    </div>
                 </div>
 
                 {sprint.description && (<p className="sprint-description">{sprint.description}</p>)}
 
                 <div className="sprint-card-footer">
-                    <button className='add-US-button' onClick={(e) => {
-                        e.stopPropagation();
-                        setAddUSModal(true);
+                    <button className='sprint-button'
+                        disabled={isActive || isCompleted }
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setAddUSModal(true);
                     }}>Assign US</button>
                 </div>
             </div>
@@ -106,6 +140,17 @@ export default function SprintCard({
                     deleteSprint={deleteSprint}
                     onCancel={() => closeModal()}
                     onDeleted={async () => {
+                        closeModal();
+                        await onUpdated();
+                    }}
+                />
+            )}
+
+            {modalState.type === 'COMPLETE' && (
+                <VersionCreate
+                    sprintId={modalState.data._id}
+                    onCancel={() => closeModal()}
+                    onCreated={async () => {
                         closeModal();
                         await onUpdated();
                     }}
