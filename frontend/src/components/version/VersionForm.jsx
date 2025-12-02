@@ -41,7 +41,7 @@ export default function VersionForm({
       setError(null);
       try {
           const payload = {
-            
+            type,
             description: description.trim() || undefined,
             releaseDate: releaseDate || undefined
         };

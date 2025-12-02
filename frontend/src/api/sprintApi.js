@@ -44,9 +44,10 @@ export const sprintApi = () => {
         });
     }
 
-    const completeSprint = async (sprintId) => {
+    const completeSprint = async (sprintId, type) => {
         return await authFetch(`/sprints/${sprintId}/complete`, {
             method: 'POST',
+            body: JSON.stringify({ type }),
         });
     }
 
