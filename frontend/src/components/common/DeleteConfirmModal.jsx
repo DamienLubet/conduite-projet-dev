@@ -21,9 +21,11 @@ export default function DeleteConfirmModal({
   const [error, setError] = useState(null);
 
   const handleConfirm = async () => {
-    try {
+      try {
+        console.log('Attempting to confirm delete');
       setError(null);
-      await onConfirm();
+        await onConfirm();
+        console.log('Delete confirmed');
     } catch (err) {
       setError(err.message || `${errorPrefix}.`);
     }

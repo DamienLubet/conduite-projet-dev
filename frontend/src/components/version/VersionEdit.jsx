@@ -32,6 +32,7 @@ export default function VersionEdit({ version, onUpdated, onCancel }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h3>Edit Release</h3>
         </div>
+        {error && <p className="error-text">{error}</p>}
         <VersionForm 
           initialValues={version} 
           onSubmit={handleUpdate}
