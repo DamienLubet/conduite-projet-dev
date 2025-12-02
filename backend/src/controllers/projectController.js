@@ -103,7 +103,7 @@ export const getProjectbyId = async (req, res) => {
  * HTTP Status Codes:
  * 200 - OK
  * 401 - Unauthorized
- * 404 - Not Found
+ * 403 - Forbidden
  * 500 - Internal Server Error
  * 
  * Response JSON Structure:
@@ -118,7 +118,7 @@ export const deleteProject = async (req, res) => {
         const projectId = req.params.id;
         const project = await Project.findOne({ _id: projectId, owner: userId });
         if (!project) {
-            return res.status(404).json({ success: false, message: 'Forbidden. Only the product owner can delete the project.' });
+            return res.status(403).json({ success: false, message: 'Forbidden. Only the product owner can delete the project.' });
         }
         await project.deleteOne();
         return res.status(200).json({ success: true, message: 'Project deleted successfully.' });
@@ -140,7 +140,7 @@ export const deleteProject = async (req, res) => {
  * 200 - OK
  * 400 - Bad Request
  * 401 - Unauthorized
- * 404 - Not Found
+ * 403 - Forbidden
  * 500 - Internal Server Error
  * 
  * Response JSON Structure:
@@ -156,7 +156,7 @@ export const editProject = async (req, res) => {
         const { name, description } = req.body;
         const project = await Project.findOne({ _id: projectId, owner: userId });
         if (!project) {
-            return res.status(404).json({ success: false, message: 'Forbidden. Only the product owner can edit the project.' });
+            return res.status(403).json({ success: false, message: 'Forbidden. Only the product owner can edit the project.' });
         }
         if (name) {
             const existingProject = await Project.findOne({ name, owner: userId, _id: { $ne: projectId } });
