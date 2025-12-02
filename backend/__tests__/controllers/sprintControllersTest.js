@@ -263,7 +263,7 @@ describe("SprintController - startSprint", () => {
     let req, res, sprintId, sprint;
 
     beforeEach(async () => {
-        sprint = await new Sprint({ name: "Sprint 1", project: new mongoose.Types.ObjectId(), startDate: new Date("2024-01-01"), endDate: new Date("2024-01-15"), status: 'planned' }).save();
+        sprint = await new Sprint({ name: "Sprint 1", project: new mongoose.Types.ObjectId(), startDate: new Date(), endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), status: 'planned' }).save();
         sprintId = sprint._id;
         req = { params: { sprintId: sprintId }, sprint: sprint };
         res = {

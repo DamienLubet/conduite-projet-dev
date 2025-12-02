@@ -171,8 +171,8 @@ describe("Sprint Routes", () => {
             const sprint = new Sprint({
                 name: "Sprint 1",
                 description: "First sprint",
-                startDate: "2024-01-01",
-                endDate: "2024-01-15",
+                startDate: new Date(),
+                endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                 project: projectId,
                 status: "planned"
             });
