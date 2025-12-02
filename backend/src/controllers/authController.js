@@ -3,13 +3,6 @@ import User from "../models/user.js";
 import { generateToken } from "../services/authService.js";
 
 /**
- * @module AuthController
- * @brief Authentication controllers.
- *
- * Manages user registration and login functionalities.
- */
-
-/**
  * Register a new user
  * @param {Express.Request} req 
  * Request Body:

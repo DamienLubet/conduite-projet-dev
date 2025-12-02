@@ -1,13 +1,6 @@
 import Project from '../models/project.js';
 
 /**
- * @module UserController
- * @brief User-related controllers.
- *
- * Manages user-specific operations such as retrieving user projects.
- */
-
-/**
  * Get all projects for the authenticated user
  * @param {Express.Request} req 
  * @param {Express.Response} res 

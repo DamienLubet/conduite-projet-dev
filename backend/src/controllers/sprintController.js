@@ -3,13 +3,6 @@ import UserStory from '../models/userstory.js';
 import { newVersion } from '../services/versionService.js';
 
 /**
- * @module SprintController
- * @brief Manages sprint-related operations.
- * 
- * Provides functionalities to create, update, delete, and manage sprints within projects.
- */
-
-/**
  * Create a new sprint
  * @param {Express.Request} req 
  * Request Body:

@@ -1,13 +1,6 @@
 import { getUserByIdentifier } from "../services/userService.js";
 
 /**
- * @module ProjectMemberController
- * @brief Management controllers for project members.
- *
- * Handles adding, removing, and changing roles of project members.
- */
-
-/**
  * Add a member to a project
  * @param {Express.Request} req 
  * Request Body:

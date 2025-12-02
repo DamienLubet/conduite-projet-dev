@@ -3,13 +3,6 @@ import Version from '../models/version.js';
 import { newVersion } from '../services/versionService.js';
 
 /**
- * @module VersionController
- * @brief Manages version-related operations.
- * 
- * Provides functionalities to create, update, and retrieve versions within projects.
- */
-
-/**
  * Create a new version
  * @param {Express.Request} req 
  * Request Body:

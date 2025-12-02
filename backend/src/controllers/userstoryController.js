@@ -1,13 +1,5 @@
 import UserStory from "../models/userstory.js";
 
-/**
- * @module UserStoryController
- * @brief Controllers for managing user stories within projects.
- *
- * This module provides functionalities to create, retrieve, update, and delete
- * user stories associated with projects in a project management context.
- */
-
 /** Create a new user story
  * @param {Express.Request} req 
  * Request Body:

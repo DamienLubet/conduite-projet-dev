@@ -1,14 +1,5 @@
 import Project from '../models/project.js';
 
-
-
-/**
- * @module ProjectController
- * @brief Project management controllers.
- *
- * Handles creation, retrieval, updating, and deletion of projects.
- */
-
 /**
  * Create a new project
  * @param {Express.Request} req 

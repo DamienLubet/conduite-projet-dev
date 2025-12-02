@@ -3,14 +3,6 @@ import Task from '../models/task.js';
 import User from '../models/user.js';
 import UserStory from '../models/userstory.js';
 
-/**
- * @module TaskController
- * @brief Controllers for managing tasks within user stories.
- *
- * This module provides functionalities to create, retrieve, update, delete,
- * and assign tasks associated with user stories in a project management context.
- */
-
 /** Create a new task
  * @param {Express.Request} req 
  * Request Body:
