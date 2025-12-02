@@ -1,8 +1,19 @@
 import { useState } from 'react';
 
+/**
+ * Component to display a version card with expandable details.
+ * 
+ * @param {Object} props - Component properties.
+ * @param {Object} props.version - The version data to display.
+ * @param {Function} props.onEdit - Callback function when the version card is clicked.
+ */
 export default function VersionCard({ version, onEdit }) {
     const [expanded, setExpanded] = useState(false);
 
+    /**
+     * Toggle the expanded state of the version details.
+     * @param {Object} e - The click event.
+     */
     const toggleExpanded = (e) => {
         e.stopPropagation();
         setExpanded(prev => !prev);
