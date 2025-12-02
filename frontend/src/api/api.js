@@ -27,7 +27,7 @@ export function useApi() {
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok || data.success === false) {
-      const message = data.message || 'Erreur API';
+      const message = data.message || 'Error API';
       throw new Error(message);
     }
     return data;
