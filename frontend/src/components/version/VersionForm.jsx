@@ -14,6 +14,7 @@ export default function VersionForm({
   onCreate,
   submitLabel = 'Save'
 }) {
+    const [type, setType] = useState(TYPE.MINOR);
   const [description, setDescription] = useState(initialValues.description || '');
   const [releaseDate, setReleaseDate] = useState(initialValues.releaseDate ? initialValues.releaseDate.slice(0, 10) : '');
   
@@ -25,7 +26,8 @@ export default function VersionForm({
       setLoading(true);
       setError(null);
       try {
-        const payload = {
+          const payload = {
+            
             description: description.trim() || undefined,
             releaseDate: releaseDate || undefined
         };
@@ -42,7 +44,8 @@ export default function VersionForm({
             {onCreate &&
                 (<div className="form-group">
                     <label htmlFor="version-type-tag">Type</label>
-                    <select id="version-type-tag" defaultValue={TYPE.PATCH} >
+                <select id="version-type-tag" value={type}
+                    onChange={(e) => setType(e.target.value)}>
                         <option value={TYPE.MAJOR}>Major</option>
                         <option value={TYPE.MINOR}>Minor</option>
                         <option value={TYPE.PATCH}>Patch</option>

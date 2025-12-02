@@ -1,10 +1,14 @@
-import VersionForm from './UserStoryForm.jsx';
+import { useState } from 'react';
+import { sprintApi } from '../../api/sprintApi.js';
+import VersionForm from './VersionForm.jsx';
 
-export default function VersionCreate({ projectId, onCreated, onCancel }) {
+export default function VersionCreate({ sprintId, onCreated, onCancel }) {
   const [error, setError] = useState('');
-  
+  const { completeSprint } = sprintApi();
+
   const handleCreate = async (formData) => {
-     try {
+    try {
+       await completeSprint(sprintId, formData);
        await onCreated();
      } catch (error) {
        setError(error.message || 'Failed to create version.');
