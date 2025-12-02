@@ -10,9 +10,9 @@ export default function VersionCard({ version, onEdit }) {
 
     return (
         <div>
-            <li className="version-item" onClick={() => onEdit(version)}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
+            <div className="version-item" onClick={() => onEdit(version)}>
+                <div className="version-card-header" >
+                    <div className="version-card-header-left">
                         <button 
                             onClick={(e) => toggleExpanded(e)}
                             className="expand-tasks-button"
@@ -23,7 +23,9 @@ export default function VersionCard({ version, onEdit }) {
                             </svg>
                         </button>
                         <span className="version-tag" style={{ fontWeight: 'bold', color: '#60a5fa', fontSize: '1.1rem' }}>{version.tag}</span>
-                        <p className="version-release-date">Released on: {new Date(version.releaseDate).toLocaleDateString()}</p>
+                    </div>
+                    <div className="version-card-header-right">
+                        <span className="version-release-date">Release: {new Date(version.releaseDate).toLocaleDateString()}</span>
                     </div>
                 </div>
                 {expanded && (
@@ -32,9 +34,11 @@ export default function VersionCard({ version, onEdit }) {
                         
                     </div>
                 )}
-            </li>
+            </div>
             {expanded && (
-                <div className="version-sprints" style={{ marginTop: '0.7rem' }}>Sprint {version.sprint.number}: {version.sprint.name}</div>
+                <div className="version-separator">
+                    <div className="version-sprints" style={{ marginTop: '0.7rem' }}>Sprint {version.sprint.number}: {version.sprint.name}</div>
+                </div>
             )}
         </div>
     );
