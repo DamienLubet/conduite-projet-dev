@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { projectApi } from "../../api/projectApi";
+import DeleteConfirmModal from "../common/DeleteConfirmModal.jsx";
 
 /**
  * Component for confirming project deletion.
@@ -12,6 +14,7 @@ import { projectApi } from "../../api/projectApi";
  */
 export default function ProjectDeleteConfirm({ project, onDeleted, onCancel }) {
   const { deleteProject } = projectApi();
+  const [error, setError] = useState(null);
 
   /**
    * Handles the deletion of the project.
@@ -21,38 +24,25 @@ export default function ProjectDeleteConfirm({ project, onDeleted, onCancel }) {
   const handleDelete = async () => {
     if (!project || !project._id) return;
     try {
+      setError(null);
       await deleteProject(project._id);
       if (onDeleted) {
         onDeleted();
       }
     } catch (err) {
-      // Simple error handling; could be improved with UI feedback if needed
-      // but keeping it minimal like create modal.
-      console.error('Failed to delete user story', err);
+      setError(err.message || 'An error occurred while deleting the project.');
     }
   };
 
   if (!project) return null;
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal">
-        <h3>Delete Project</h3>
-        <p>
-          Are you sure you want to delete
-          {' '}
-          <strong>{project.name}</strong>
-          ?
-        </p>
-        <div className="modal-actions">
-          <button type="button" className="cancel-button" onClick={onCancel}>
-            Cancel
-          </button>
-          <button type="button" className="danger-button" onClick={handleDelete}>
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
+    <DeleteConfirmModal
+      title="Delete Project"
+      itemLabel={project.name}
+      onCancel={onCancel}
+      onConfirm={handleDelete}
+      errorPrefix="An error occurred while deleting the project"
+    />
   );
 }
