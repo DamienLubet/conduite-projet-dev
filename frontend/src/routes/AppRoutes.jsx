@@ -9,7 +9,11 @@ import UserStoryList from '../components/userstories/UserStoryList.jsx';
 import VersionList from '../components/version/VersionList.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
-
+/**
+ * Component to protect routes that require authentication.
+ * @param {Object} props - Component properties.
+ * @param {React.ReactNode} props.children - Child components.
+ */
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return <div>Loading...</div>;
@@ -19,6 +23,10 @@ function PrivateRoute({ children }) {
   return children;
 }
 
+/**
+ * Component to define application routes.
+ * @returns {React.ReactNode} The application routes.
+ */
 export default function AppRoutes() {
   const { user } = useAuth();
 

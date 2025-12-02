@@ -1,5 +1,13 @@
 import { taskApi } from "../../api/taskApi";
 
+/**
+ * Component to confirm deletion of a task.
+ * @param {Object} props
+ * @param {Object} props.task - The task to be deleted.
+ * @param {Function} props.onDeleted - Callback function to invoke after task deletion.
+ * @param {Function} props.onCancel - Callback function to invoke on cancel action.
+ * @return {JSX.Element|null} The rendered TaskDeleteConfirm component or null if no task is provided.
+ */
 export default function TaskDeleteConfirm({ task, onDeleted, onCancel }) {
   const { deleteTask } = taskApi();
   const handleDelete = async () => {

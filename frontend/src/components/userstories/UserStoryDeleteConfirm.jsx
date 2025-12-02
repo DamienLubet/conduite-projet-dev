@@ -1,9 +1,16 @@
-export default function UserStoryDeleteConfirm({
-  story,
-  onDeleted,
-  onCancel,
-  deleteUserStory,
-}) {
+/**
+ * Component for confirming the deletion of a user story.
+ * @param {Object} props - Component properties.
+ * @param {Object} props.story - The user story to be deleted.
+ * @param {Function} props.onDeleted - Callback function after successful deletion.
+ * @param {Function} props.onCancel - Callback function to cancel deletion.
+ * @param {Function} props.deleteUserStory - Function to delete the user story.
+ * @returns {JSX.Element|null} The rendered UserStoryDeleteConfirm component or null if no story is provided.
+ */
+export default function UserStoryDeleteConfirm({ story, onDeleted, onCancel, deleteUserStory }) {
+  /**
+   * Handle the deletion of the user story.
+   */
   const handleDelete = async () => {
     if (!story || !story._id) return;
     try {

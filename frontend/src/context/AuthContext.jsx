@@ -2,11 +2,19 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext(null);
 
+/**
+ * Provider component to manage authentication state.
+ * @param {Object} props - Component properties.
+ * @param {React.ReactNode} props.children - Child components.
+ */
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  /**
+   * Load authentication state from local storage on component mount.
+   */
   useEffect(() => {
     const storedToken = window.localStorage.getItem('authToken');
     const storedUser = window.localStorage.getItem('authUser');
@@ -24,6 +32,11 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
+  /**
+   * Log in a user by setting the user data and token.
+   * @param {Object} userData - The user data.
+   * @param {string} jwt - The JWT token.
+   */
   const login = (userData, jwt) => {
     setUser(userData);
     setToken(jwt);
@@ -31,6 +44,9 @@ export function AuthProvider({ children }) {
     window.localStorage.setItem('authUser', JSON.stringify(userData));
   };
 
+  /**
+   * Log out the current user by clearing the user data and token.
+   */
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -43,6 +59,10 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+/**
+ * Custom hook to access authentication context.
+ * @returns {Object} Authentication context value.
+ */
 export function useAuth() {
   return useContext(AuthContext);
 }

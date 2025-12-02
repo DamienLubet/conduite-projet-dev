@@ -1,5 +1,8 @@
 import { useApi } from "./api";
 
+/**
+ * Custom hook to interact with the Version API endpoints.
+ */
 export const versionApi = () => {
     const { authFetch } = useApi();
 

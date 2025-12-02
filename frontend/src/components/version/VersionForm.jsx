@@ -6,6 +6,16 @@ const TYPE = {
     PATCH: 'patch'
 };
 
+/**
+ * Component for a version form used in creating or editing versions.
+ * @param {Object} props - Component properties.
+ * @param {Object} [props.initialValues={}] - Initial values for the form fields.
+ * @param {Function} props.onSubmit - Callback function to handle form submission.
+ * @param {Function} props.onCancel - Callback function to handle form cancellation.
+ * @param {boolean} [props.onEdit] - Flag indicating if the form is in edit mode.
+ * @param {boolean} [props.onCreate] - Flag indicating if the form is in create mode.
+ * @param {string} [props.submitLabel='Save'] - Label for the submit button.
+ */
 export default function VersionForm({ 
   initialValues = {}, 
   onSubmit, 
@@ -15,29 +25,33 @@ export default function VersionForm({
   submitLabel = 'Save'
 }) {
     const [type, setType] = useState(TYPE.MINOR);
-  const [description, setDescription] = useState(initialValues.description || '');
-  const [releaseDate, setReleaseDate] = useState(initialValues.releaseDate ? initialValues.releaseDate.slice(0, 10) : '');
-  
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [description, setDescription] = useState(initialValues.description || '');
+    const [releaseDate, setReleaseDate] = useState(initialValues.releaseDate ? initialValues.releaseDate.slice(0, 10) : '');
     
-  const handleSubmit = async (e) => {
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    
+    /**
+     * Handle form submission.
+     * @param {Object} e - The form submission event.
+     */
+    const handleSubmit = async (e) => {
       e.preventDefault();
       setLoading(true);
       setError(null);
       try {
           const payload = {
-            
+            type,
             description: description.trim() || undefined,
             releaseDate: releaseDate || undefined
         };
           await onSubmit(payload);
       } catch (err) {
-            setError('An error occurred.');
+            setError(err.message || 'Error submitting form.');
       } finally {
           setLoading(false);
       }
-  };
+    };
     
     return (
         <form onSubmit={handleSubmit}>

@@ -7,6 +7,10 @@ import UserStoryCreate from './UserStoryCreate.jsx';
 import UserStoryDeleteConfirm from './UserStoryDeleteConfirm.jsx';
 import UserStoryEdit from './UserStoryEdit.jsx';
 
+/**
+ * Component for displaying and managing a list of user stories within a project.
+ * @returns {JSX.Element} The rendered UserStoryList component.
+ */
 export default function UserStoryList() {
     const { getUserStoriesByProject, createUserStory, updateUserStory, deleteUserStory } = userStoryApi();
     const { projectId } = useParams();
@@ -19,6 +23,9 @@ export default function UserStoryList() {
     const [modalState, setModalState] = useState({ type: null, data: null });
     const closeModal = () => setModalState({ type: null, data: null });
     
+    /**
+     * Fetch user stories for the current project.
+     */
     const fetchUserStories = async () => {
         setLoading(true);
         setError(null);

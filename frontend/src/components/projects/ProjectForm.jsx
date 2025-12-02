@@ -1,5 +1,18 @@
 import { useState } from 'react';
 
+/**
+ * Reusable form component for creating and editing projects.
+ * Handles form state, validation, and submission.
+ * 
+ * @param {Object} props
+ * @param {Object} props.initialValues - Initial values for the form fields.
+ * @param {Function} props.onSubmit - Function to call on form submission.
+ * @param {Function} [props.onCancel] - Optional function to call on cancel action.
+ * @param {Function} [props.onDelete] - Optional function to call on delete action.
+ * @param {string} [props.submitLabel='Save'] - Label for the submit button.
+ * @param {boolean} [props.isEditMode=false] - Flag indicating if the form is in edit mode.
+ * @returns {JSX.Element} The rendered ProjectForm component.
+ */
 export default function ProjectForm({ 
     initialValues = {}, 
     onSubmit, 
@@ -14,6 +27,12 @@ export default function ProjectForm({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    /**
+     * Handles form submission.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} e - Form submit event.
+     * @return {Promise<void>}
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!name.trim()) {
@@ -34,8 +53,7 @@ export default function ProjectForm({
             
             await onSubmit(payload);
         } catch (err) {
-            console.error(err);
-            setError('An error occurred.');
+            setError(err.message || 'An error occurred');
         } finally {
             setLoading(false);
         }

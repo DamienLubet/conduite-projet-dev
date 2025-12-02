@@ -5,6 +5,9 @@ import VersionEdit from './VersionEdit.jsx';
 import VersionCard from './VersionCard.jsx';
 import '../../styles/versionStyle.css';
 
+/**
+ * Component to display a list of versions for a project.
+ */
 export default function VersionList() {
     const { getVersionsByProject } = versionApi();
     const { projectId } = useParams();
@@ -16,6 +19,9 @@ export default function VersionList() {
     const [modalState, setModalState] = useState({ type: null, data: null });
     const closeModal = () => setModalState({ type: null, data: null });
 
+    /**
+     * Fetch versions for the current project.
+     */
     const fetchVersions = async () => {
         setLoading(true);
         setError(null);

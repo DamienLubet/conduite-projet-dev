@@ -2,6 +2,16 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+/**
+ * Middleware to require authentication via JWT.
+ * Verifies the JWT token from the Authorization header.
+ * If valid, attaches the decoded user info to req.user.
+ * If invalid or missing, responds with 401 Unauthorized.
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {Function} next 
+ */
 export default function requireAuth(req, res, next) {
     const authHeader = req.headers.authorization || req.get('Authorization');
     if (!authHeader) {

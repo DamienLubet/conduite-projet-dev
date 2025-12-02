@@ -4,12 +4,16 @@ import ProjectDeleteConfirm from './ProjectDeleteConfirm';
 import ProjectEdit from './ProjectEdit';
 import ProjectMemberSettings from './ProjectMemberSettings';
 
+/**
+ * Component for managing project settings.
+ * Includes sections for general settings, member management, and project deletion.
+ * 
+ * @return {JSX.Element} The rendered ProjectSettings component.
+ */
 export default function ProjectSettings() {
   const { project, setProject } = useOutletContext() || {};
   const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
-
-    console.log('ProjectSettings render with project:', project);
 
     if (!project) {
         return <div className="project-settings"><p>Loading...</p></div>;

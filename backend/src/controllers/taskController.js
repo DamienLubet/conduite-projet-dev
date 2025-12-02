@@ -3,7 +3,26 @@ import Task from '../models/task.js';
 import User from '../models/user.js';
 import UserStory from '../models/userstory.js';
 
-// Create a new task
+/** Create a new task
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   title: string,
+ *   description?: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 201 - Created
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const createTask = async (req, res) => {
     try {
         const userStoryId = req.params.userStoryId;
@@ -25,7 +44,20 @@ export const createTask = async (req, res) => {
     }
 }
 
-// Get tasks by user story ID
+/* Get all tasks for a specific user story
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   data: Task[]
+ * }
+ */
 export const getTasksByUserStory = async (req, res) => {
     try {
         const userStoryId = req.params.userStoryId;
@@ -36,7 +68,21 @@ export const getTasksByUserStory = async (req, res) => {
     }
 }
 
-// Get a single task by ID
+/** Get task by ID
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   data: Task
+ * }
+ */
 export const getTaskById = async (req, res) => {
     try {
         const taskId = req.params.id;
@@ -50,6 +96,27 @@ export const getTaskById = async (req, res) => {
     }
 }
 
+/** Update a task
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   title?: string,
+ *   description?: string,
+ *   status?: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const updateTask = async (req, res) => {
     try {
         const task = req.task; 
@@ -71,6 +138,20 @@ export const updateTask = async (req, res) => {
     }
 }
 
+/** Delete a task
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const deleteTask = async (req, res) => {
     try {
         const task = req.task; 
@@ -81,6 +162,26 @@ export const deleteTask = async (req, res) => {
     }
 }
 
+/** Assign a task to a user
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   assigneeId: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const assignTask = async (req, res) => {
     try {
         const task = req.task; 

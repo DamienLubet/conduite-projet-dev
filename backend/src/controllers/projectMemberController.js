@@ -1,5 +1,27 @@
 import { getUserByIdentifier } from "../services/userService.js";
 
+/**
+ * Add a member to a project
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   email?: string,
+ *   username?: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const addProjectMember = async (req, res) => {
     try {
         const { email, username } = req.body;
@@ -24,6 +46,27 @@ export const addProjectMember = async (req, res) => {
     }
 }
 
+/** Remove a member from a project
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   email?: string,
+ *   username?: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const removeProjectMember = async (req, res) => {
     try {
         const { email, username } = req.body;
@@ -60,6 +103,28 @@ export const removeProjectMember = async (req, res) => {
     }
 }
 
+/** Change a member's role in a project
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   email?: string,
+ *   username?: string,
+ *   newRole: string
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 404 - Not Found
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const changeMemberRole = async (req, res) => {
     try {
         const { email, username, newRole } = req.body;

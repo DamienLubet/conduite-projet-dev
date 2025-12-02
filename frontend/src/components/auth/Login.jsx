@@ -4,6 +4,12 @@ import { useAuth } from './../../context/AuthContext.jsx';
 
 const API_BASE_URL = '/api';
 
+/**
+ * Login component for user authentication.
+ * Handles user input, form submission, and error display.
+ * 
+ * @return {JSX.Element} The rendered Login component.
+ */
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -12,6 +18,12 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Handles login form submission.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} e - Form submit event.
+   * @return {Promise<void>}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -26,7 +38,7 @@ export default function Login() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || 'Erreur de connexion');
+        throw new Error(data.message || 'Error during login');
       }
 
       login(data.data.user, data.data.token);

@@ -1,5 +1,10 @@
 import Version from '../models/version.js';
 
+/** Generate the next version tag based on the last version and type
+ * @param {string} projectId - The ID of the project
+ * @param {string} type - The type of version increment ('major', 'minor', 'patch')
+ * @returns {Promise<string>} - The new version tag
+ */
 export async function generateVersionTag(projectId, type) {
     const lastVersion = await Version.findOne({ project: projectId }).sort({ createdAt: -1 });
     if (!lastVersion) {
@@ -15,6 +20,12 @@ export async function generateVersionTag(projectId, type) {
     }
 }
 
+/** Create a new version for a sprint
+ * @param {Object} sprint - The sprint object
+ * @param {string} type - The type of version increment ('major', 'minor', 'patch')
+ * @param {string} [description] - Optional description for the version
+ * @returns {Promise<Version>} - The created version object
+ */
 export async function newVersion(sprint, type, description = '') {
     if(!['major', 'minor', 'patch'].includes(type)) {
         throw new Error('Invalid version type');

@@ -5,6 +5,11 @@ import '../../styles/sprintStyle.css';
 import SprintCard from './SprintCard.jsx';
 import SprintCreate from './SprintCreate.jsx';
 
+/**
+ * Component to display a list of sprints for a specific project.
+ * Handles fetching sprints, displaying them, and managing modals for sprint creation.
+ * @return {JSX.Element} The rendered SprintList component.
+ */
 export default function SprintList() {
     const { getSprintsByProject, createSprint } = sprintApi();
     const { projectId } = useParams();
@@ -17,6 +22,11 @@ export default function SprintList() {
     const [modalState, setModalState] = useState({ type: null, data: null });
     const closeModal = () => setModalState({ type: null, data: null });
 
+    /**
+     * Fetches the list of sprints for the current project from the API.
+     *
+     * @return {Promise<void>}
+     */
     const fetchSprints = async () => {
         setLoading(true);
         setError(null);

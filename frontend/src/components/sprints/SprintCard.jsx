@@ -6,11 +6,14 @@ import SprintAssignUS from './SprintAssignUS.jsx';
 import SprintDeleteConfirm from './SprintDeleteConfirm.jsx';
 import SprintEdit from './SprintEdit.jsx';
 
-
-export default function SprintCard({
-    sprint,
-    onUpdated
-}) {
+/**
+ * Component to display a sprint card with details and actions.
+ * @param {Object} props
+ * @param {Object} props.sprint - The sprint data to display.
+ * @param {Function} props.onUpdated - Callback function to invoke after updates.
+ * @return {JSX.Element} The rendered SprintCard component.
+ */
+export default function SprintCard({ sprint, onUpdated }) {
     const { updateSprint, deleteSprint, startSprint } = sprintApi();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -23,19 +26,22 @@ export default function SprintCard({
     const isActive = sprint.status === 'active';
     const isCompleted = sprint.status === 'completed';
     
+    /** Toggles the expansion of the sprint to show/hide user stories.
+     *
+     * @param {Object} e - The event object.
+     */
     const toggleUserStory = (e) => {
         e.stopPropagation();
         setExpandedSprint(prev => !prev);
     };
 
+    /** Handles the activation of the sprint. */
     const handleActivate = async () => {
         setLoading(true);
         setError(null);
         try {
-            console.log('Activating sprint', sprint);
             await startSprint(sprint._id);
             await onUpdated();
-            console.log('Sprint activated:', sprint);
         } catch (error) {
             setError(error.message || 'Failed to activate sprint.');
         } finally {
@@ -43,6 +49,11 @@ export default function SprintCard({
         }
     };
 
+    /** Formats a date string to DD-MM-YYYY format.
+     *
+     * @param {string} dateStr - The date string to format.
+     * @return {string} The formatted date string.
+     */
     function getDateString(dateStr) {
         const date = new Date(dateStr);
         const day = String(date.getDate()).padStart(2, '0');

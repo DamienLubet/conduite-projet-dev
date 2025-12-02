@@ -3,6 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = '/api';
 
+/**
+ * Register component for new user sign-up.
+ * Handles user input, form submission, and error display.
+ * 
+ * @return {JSX.Element} The rendered Register component.
+ */
 export default function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -11,6 +17,12 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  /**
+   * Handles registration form submission.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} e - Form submit event.
+   * @return {Promise<void>}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -25,7 +37,7 @@ export default function Register() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || "Erreur lors de l'inscription");
+        throw new Error(data.message || "Error during registration");
       }
 
       navigate('/login');

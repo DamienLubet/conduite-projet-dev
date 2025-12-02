@@ -3,11 +3,15 @@ import { taskApi } from '../../api/taskApi';
 import TaskCreate from '../tasks/TaskCreate.jsx';
 import TaskList from '../tasks/TaskList.jsx';
 
-export default function UserStoryCard({ 
-    story, 
-    onEdit,
-    sprint = false
-}) {
+/**
+ * Component representing a user story card with expandable tasks.
+ * @param {Object} props - Component properties.
+ * @param {Object} props.story - The user story data.
+ * @param {Function} props.onEdit - Callback function to edit the user story.
+ * @param {boolean} [props.sprint=false] - Flag indicating if the card is in sprint view.
+ * @returns {JSX.Element} The rendered UserStoryCard component.
+ */
+export default function UserStoryCard({ story, onEdit, sprint = false}) {
     const { getTasksByUserStory } = taskApi();
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -15,6 +19,9 @@ export default function UserStoryCard({
     const [showTaskModal, setShowTaskModal] = useState(false);
     const [expandedStory, setExpandedStory] = useState(false);
 
+    /**
+     * Fetch tasks associated with the user story.
+     */
     const fetchTasks = async () => {
         setLoading(true);
         setError(null);
@@ -22,7 +29,7 @@ export default function UserStoryCard({
             const res = await getTasksByUserStory(story._id);
             setTasks(res.data);
         } catch (err) {
-            setError('Failed to load tasks.' + err.message);
+            setError(err.message || 'Error fetching tasks');
         } finally {
             setLoading(false);
         }
@@ -34,6 +41,10 @@ export default function UserStoryCard({
         }
     }, [expandedStory]);
 
+    /** 
+     * Toggle the expansion of the user story to show/hide tasks.
+     * @param {Event} e - The click event.
+     */
     const toggleTasks = (e) => {
         e.stopPropagation();
         setExpandedStory(prev => !prev);

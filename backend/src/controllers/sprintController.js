@@ -2,6 +2,30 @@ import Sprint from '../models/sprint.js';
 import UserStory from '../models/userstory.js';
 import { newVersion } from '../services/versionService.js';
 
+/**
+ * Create a new sprint
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   name: string,
+ *   description?: string,
+ *   startDate: Date,
+ *   endDate: Date
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 201 - Created
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string,
+ *   sprint?: Sprint
+ * }
+ */
 export const createSprint = async (req, res) => {
     try {
         const { name, description, startDate, endDate } = req.body;
@@ -15,13 +39,27 @@ export const createSprint = async (req, res) => {
         
         const sprint = new Sprint({ name, description, startDate, endDate, project });
         await sprint.save();
-        console.log(`Sprint created: ${sprint._id} for project ${project}`);
         res.status(201).json({ success: true, message: 'Sprint created successfully', sprint });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 };
 
+/** Delete a sprint
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const deleteSprint = async (req, res) => {
     try {
         const sprint = req.sprint;
@@ -35,6 +73,20 @@ export const deleteSprint = async (req, res) => {
     }
 };
 
+/** Get all sprints for a project
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   sprints?: Array<Sprint>
+ * }
+ */
 export const getSprintsByProject = async (req, res) => {
     try {
         const projectId = req.params.projectId;
@@ -52,6 +104,28 @@ export const getSprintsByProject = async (req, res) => {
     }
 };
 
+/** Update a sprint
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   name?: string,
+ *   description?: string,
+ *   startDate?: Date,
+ *   endDate?: Date
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const updateSprint = async (req, res) => {
     try {
         const sprint = req.sprint; // Retrieved from middleware
@@ -73,6 +147,25 @@ export const updateSprint = async (req, res) => {
     }
 };
 
+/** Assign User Stories to a sprint
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   userStoriesIDs: Array<string>
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const assignUserStoriesToSprint = async (req, res) => {
     try {
         const sprintId = req.params.sprintId;
@@ -99,6 +192,21 @@ export const assignUserStoriesToSprint = async (req, res) => {
     }
 };
 
+/** Start a sprint
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const startSprint = async (req, res) => {
     try {
         const sprint = req.sprint;
@@ -108,6 +216,7 @@ export const startSprint = async (req, res) => {
         }
 
         sprint.status = 'active';
+        sprint.startDate = new Date();
         await sprint.save();     
         res.status(200).json({ success: true, message: 'Sprint started successfully' });
     } catch (error) {
@@ -115,6 +224,25 @@ export const startSprint = async (req, res) => {
     }
 };
 
+/** Complete a sprint
+ * @param {Express.Request} req 
+ * Request Body:
+ * {
+ *   type?: string (semantic versioning type: 'major', 'minor', 'patch')
+ * }
+ * @param {Express.Response} res 
+ * @returns 
+ * HTTP Status Codes:
+ * 200 - OK
+ * 400 - Bad Request
+ * 500 - Internal Server Error
+ * 
+ * Response JSON Structure:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
 export const completeSprint = async (req, res) => {
     try {
         const sprint = req.sprint;

@@ -1,5 +1,15 @@
 import { useState } from 'react';
 
+/**
+ * Component for the sprint form used in creating and editing sprints.
+ * @param {Object} props
+ * @param {Object} [props.initialValues={}] - Initial values for the form fields.
+ * @param {Function} props.onSubmit - Function to handle form submission.
+ * @param {Function} props.onCancel - Function to handle form cancellation.
+ * @param {Function} [props.onDelete] - Optional function to handle sprint deletion.
+ * @param {string} [props.submitLabel='Save'] - Label for the submit button.
+ * @return {JSX.Element} The rendered SprintForm component.
+ */
 export default function SprintForm({
     initialValues = {},
     onSubmit,
@@ -7,7 +17,6 @@ export default function SprintForm({
     onDelete,
     submitLabel = 'Save'
 }) {
-
     const [name, setName] = useState(initialValues.name || '');
     const [description, setDescription] = useState(initialValues.description || '');
     const [startDate, setStart] = useState(initialValues.startDate ? initialValues.startDate.slice(0, 10) : '');
@@ -15,6 +24,12 @@ export default function SprintForm({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    /**
+     * Handles form submission.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} e - Form submit event.
+     * @return {Promise<void>}
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!name.trim()) {

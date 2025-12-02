@@ -3,6 +3,10 @@ import { connect, disconnect } from 'mongoose';
 
 config();
 
+/**
+ * Connect to MongoDB database using Mongoose.
+ * @async
+ */
 async function connectDB() {
     try {
         console.log("Opening connection");

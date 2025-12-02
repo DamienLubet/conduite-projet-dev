@@ -1,5 +1,8 @@
 import { useApi } from "./api";
 
+/**
+ * Custom hook to interact with the Project API endpoints.
+ */
 export const projectApi = () => {
     const { authFetch } = useApi();
 
