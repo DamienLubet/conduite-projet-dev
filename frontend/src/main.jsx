@@ -5,6 +5,7 @@ import App from './App.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import './index.css';
 
+/** Render the root component of the application. */
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
