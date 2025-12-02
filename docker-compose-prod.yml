@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: 
+      context: backend
+      dockerfile: Dockerfile.prod
+    container_name: backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+      - DB_NAME=M2CP
+      - PORT=80
+    depends_on:
+      - mongo
+
+  frontend:
+    build: 
+      context: frontend
+      dockerfile: Dockerfile.prod
+    container_name: frontend
+    restart: always
+    env_file:
+      - ./frontend/.env
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://backend/api}
+    depends_on:
+      - backend
+
+  reverseproxy:
+    container_name: reverseproxy
+    restart: always
+    build:
+      context: reverse-proxy/
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./reverse-proxy/log:/var/log/nginx
+    ports:
+      - 5000:80
+
+volumes:
+  mongo_data:
