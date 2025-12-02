@@ -19,7 +19,6 @@ export default function VersionCreate({ sprintId, onCreated, onCancel }) {
    */
   const handleCreate = async (formData) => {
     try {
-        console.log('Creating version with data:', formData);
        await completeSprint(sprintId, formData.type);
        await onCreated();
      } catch (error) {
