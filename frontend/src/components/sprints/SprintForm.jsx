@@ -65,7 +65,7 @@ export default function SprintForm({
             await onSubmit(payload);
         } catch (err) {
             console.error(err);
-            setError('An error occurred.');
+            setError(err.message || 'An error occurred while saving the sprint.');
         } finally {
             setLoading(false);
         }
@@ -73,7 +73,7 @@ export default function SprintForm({
 
     return (
         <form onSubmit={handleSubmit}>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p className="error-text">{error}</p>}
 
             <div className="form-group">
                 <label htmlFor="sprint-name">Name</label>

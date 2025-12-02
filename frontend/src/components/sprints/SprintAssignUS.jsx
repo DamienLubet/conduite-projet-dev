@@ -98,7 +98,7 @@ export default function SprintAssignUS({ sprint, onUpdated }) {
             <div className="modal">
             <h3>Assign User Stories to {sprint.name}</h3>
 
-            {error && <p className="modal-error">{error}</p>}
+            {error && <p className="error-text">{error}</p>}
 
             <div className="assign-us-search">
                 <input

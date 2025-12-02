@@ -55,6 +55,7 @@ export default function VersionForm({
     
     return (
         <form onSubmit={handleSubmit}>
+            {error && <p className="error-text">{error}</p>}
             {onCreate &&
                 (<div className="form-group">
                     <label htmlFor="version-type-tag">Type</label>

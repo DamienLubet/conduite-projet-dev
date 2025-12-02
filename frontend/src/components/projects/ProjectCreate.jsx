@@ -1,5 +1,6 @@
-import { projectApi } from '../../api/projectApi';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { projectApi } from '../../api/projectApi';
 import ProjectForm from './ProjectForm';
 
 /**
@@ -15,6 +16,8 @@ export default function ProjectCreate({ onCreated, onCancel }) {
     const { createProject } = projectApi();
     const navigate = useNavigate();
 
+    const [error, setError] = useState(null);
+
     /**
      * Handles project creation form submission.
      *
@@ -23,13 +26,14 @@ export default function ProjectCreate({ onCreated, onCancel }) {
      */
     const handleCreate = async (formData) => {
         try {
+            setError(null);
             const res = await createProject(formData);
             if (onCreated) {
                 onCreated();
                 navigate(`/projects/${res.projectID}`)
             }
         } catch (err) {
-            console.log(err.message);
+            setError(err.message || 'An error occurred while creating the project.');
         }
 
     };
@@ -38,6 +42,7 @@ export default function ProjectCreate({ onCreated, onCancel }) {
         <div className="modal-backdrop">
             <div className="modal">
                 <h3>Create New Project</h3>
+                {error && <p className="error-text">{error}</p>}
                 <ProjectForm
                     onSubmit={handleCreate}
                     onCancel={onCancel}

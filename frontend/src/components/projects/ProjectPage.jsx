@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { projectApi } from "../../api/projectApi";
 import "../../styles/projectPageStyle.css";
 
@@ -13,7 +13,7 @@ export default function Project() {
     const { getProjectById } = projectApi();
     const { projectId } = useParams();
     const location = useLocation();
-
+    const navigate = useNavigate();
     const [project, setProject] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -40,6 +40,14 @@ export default function Project() {
         fetchProject();
     }, [projectId]);
 
+    // Redirect to projects list if there's an error
+    useEffect(() => {
+        if (error) {
+            navigate('/projects', { state: { error } });
+        }
+    }, [error, navigate]);
+
+
     /**
      * Determines the active class for navigation links.
      *
@@ -50,13 +58,11 @@ export default function Project() {
         return location.pathname.includes(path) ? "active" : "";
     };
 
+
     if (loading) {
         return <div className="loading"><p>Loading project...</p></div>;
     }
 
-    if (error) {
-        return <div className="error-popup"><p>{error}</p></div>;
-    }
 
     return (
         <div className="project-page">

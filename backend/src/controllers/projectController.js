@@ -118,7 +118,7 @@ export const deleteProject = async (req, res) => {
         const projectId = req.params.id;
         const project = await Project.findOne({ _id: projectId, owner: userId });
         if (!project) {
-            return res.status(404).json({ success: false, message: 'Project not found or access denied.' });
+            return res.status(404).json({ success: false, message: 'Forbidden. Only the product owner can delete the project.' });
         }
         await project.deleteOne();
         return res.status(200).json({ success: true, message: 'Project deleted successfully.' });
@@ -156,7 +156,7 @@ export const editProject = async (req, res) => {
         const { name, description } = req.body;
         const project = await Project.findOne({ _id: projectId, owner: userId });
         if (!project) {
-            return res.status(404).json({ success: false, message: 'Project not found or access denied.' });
+            return res.status(404).json({ success: false, message: 'Forbidden. Only the product owner can edit the project.' });
         }
         if (name) {
             const existingProject = await Project.findOne({ name, owner: userId, _id: { $ne: projectId } });

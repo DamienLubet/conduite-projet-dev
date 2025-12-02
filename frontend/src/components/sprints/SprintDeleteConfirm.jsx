@@ -1,3 +1,5 @@
+import DeleteConfirmModal from '../common/DeleteConfirmModal.jsx';
+
 /**
  * Component to confirm deletion of a sprint.
  * @param {Object} props
@@ -8,46 +10,24 @@
  * @return {JSX.Element} The rendered SprintDeleteConfirm component.
  */
 export default function SprintDeleteConfirm({ sprint, onDeleted, onCancel, deleteSprint }) {
-  /**
-   * Handles the deletion of the sprint.
-   *
-   * @return {Promise<void>}
-   */
+
   const handleDelete = async () => {
     if (!sprint || !sprint._id) return;
-    try {
-      await deleteSprint(sprint._id);
-      if (onDeleted) {
-        onDeleted();
-      }
-    } catch (err) {
-      // Simple error handling; could be improved with UI feedback if needed
-      // but keeping it minimal like create modal.
-      console.error('Failed to delete sprint', err);
+    await deleteSprint(sprint._id);
+    if (onDeleted) {
+      onDeleted();
     }
   };
 
   if (!sprint) return null;
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal">
-        <h3>Delete Sprint</h3>
-        <p>
-          Are you sure you want to delete
-          {' '}
-          <strong>{sprint.name}</strong>
-          ?
-        </p>
-        <div className="modal-actions">
-          <button type="button" className="cancel-button" onClick={onCancel}>
-            Cancel
-          </button>
-          <button type="button" className="danger-button" onClick={handleDelete}>
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
+    <DeleteConfirmModal
+      title="Delete Sprint"
+      itemLabel={sprint.name}
+      onCancel={onCancel}
+      onConfirm={handleDelete}
+      errorPrefix="An error occurred while deleting the sprint"
+    />
   );
 }

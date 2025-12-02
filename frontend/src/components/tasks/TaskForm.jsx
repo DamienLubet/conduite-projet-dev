@@ -69,7 +69,7 @@ export default function TaskForm({
 
     return (
         <form onSubmit={handleSubmit}>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p className="error-text">{error}</p>}
             
             <div className="form-group">
                 <label htmlFor="task-title">Title *</label>
