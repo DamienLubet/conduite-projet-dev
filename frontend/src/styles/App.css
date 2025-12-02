@@ -80,10 +80,6 @@ html, body {
   margin-right: 1rem;
 }
 
-.home {
-  max-width: 600px;
-}
-
 /*. Auth pages */
 
 .auth-page {
@@ -223,3 +219,29 @@ html, body {
   }
 }
 
+.home {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.home-box {
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+}
+
+.home-box h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.home-box p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #9ca3af;
+}
