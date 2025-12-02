@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react';
 import { sprintApi } from '../../api/sprintApi.js';
 import { userStoryApi } from '../../api/userstoryApi.js';
 
+/**
+ * Component for assigning user stories to a sprint.
+ * @param {Object} props
+ * @param {Object} props.sprint - The sprint to which user stories will be assigned.
+ * @param {Function} props.onUpdated - Callback function to invoke after assignment.
+ * @return {JSX.Element} The rendered SprintAssignUS component.
+ */
 export default function SprintAssignUS({ sprint, onUpdated }) {
     const [userStories, setUserStories] = useState([]);
     const [selectedUserStories, setSelectedUserStories] = useState([]);
@@ -16,6 +23,11 @@ export default function SprintAssignUS({ sprint, onUpdated }) {
         fetchUserStories();
     }, []);
 
+    /**
+     * Fetches user stories for the sprint's project.
+     *
+     * @return {Promise<void>}
+     */
     const fetchUserStories = async () => {
         try {
             setLoading(true);
@@ -28,6 +40,12 @@ export default function SprintAssignUS({ sprint, onUpdated }) {
         }
     };
 
+    /**
+     * Assigns selected user stories to the sprint.
+     *
+     * @param {Array} usId - Array of user story IDs to assign.
+     * @return {Promise<void>}
+     */
     const assignUSToSprint = async (usId) => {
         try {
             await assignUserStoriesToSprint(sprint._id, usId);
@@ -37,6 +55,11 @@ export default function SprintAssignUS({ sprint, onUpdated }) {
         }
     };
 
+    /**
+     * Toggles the selection of a user story.
+     *
+     * @param {string} id - The ID of the user story to toggle.
+     */
     const toggleUserStory = (id) => {
         setSelectedUserStories(prev =>
             prev.includes(id)
@@ -45,10 +68,18 @@ export default function SprintAssignUS({ sprint, onUpdated }) {
         );
     };
 
+    /**
+     * Handles the assignment of selected user stories to the sprint.
+     */
     const handleAssign = () => {
         assignUSToSprint(selectedUserStories);
     };
 
+    /**
+     * Filters user stories based on the search term.
+     *
+     * @type {Array}
+     */
     const filteredUserStories = Array.isArray(userStories)
         ? userStories.filter((us) => {
             const term = searchTerm.trim().toLowerCase();
@@ -61,14 +92,13 @@ export default function SprintAssignUS({ sprint, onUpdated }) {
 
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
 
     return (
         <div className="modal-backdrop">
             <div className="modal">
             <h3>Assign User Stories to {sprint.name}</h3>
 
-            {error && <p className="modal-error">Error: {error}</p>}
+            {error && <p className="modal-error">{error}</p>}
 
             <div className="assign-us-search">
                 <input
