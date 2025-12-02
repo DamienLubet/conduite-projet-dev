@@ -8,9 +8,7 @@ import userRouter from './routes/userRoutes.js';
 import userstoryRouter from './routes/userstoryRoutes.js';
 import versionRouter from './routes/versionRoutes.js';
 
-// Load environment variables from .env file
-const PORT = process.env.PORT;
-const HOST = process.env.HOST;
+const PORT = 80
 
 // Initialize Express app and connect to the database
 const app = express();

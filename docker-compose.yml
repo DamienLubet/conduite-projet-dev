@@ -14,12 +14,11 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     restart: always
-    env_file:
-      - ./backend/.env
     environment:
-      - MONGO_URI=mongodb://mongo:27017
-      - DB_NAME=M2CP
-      - PORT=80
+      - MONGO_URI=${MONGO_URI}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
     depends_on:
       - mongo
     volumes:
@@ -30,10 +29,8 @@ services:
     build: ./frontend
     container_name: frontend
     restart: always
-    env_file:
-      - ./frontend/.env
     environment:
-      - VITE_API_URL=${VITE_API_URL:-http://backend/api}
+      - VITE_API_URL=${VITE_API_URL}
     depends_on:
       - backend
     volumes:
@@ -53,7 +50,7 @@ services:
     volumes:
       - ./reverse-proxy/log:/var/log/nginx
     ports:
-      - 8080:80
+      - ${PORT}:80
 
 volumes:
   mongo_data:
