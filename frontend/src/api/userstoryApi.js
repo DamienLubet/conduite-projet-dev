@@ -1,6 +1,8 @@
 import { useApi } from "./api";
 
-
+/**
+ * Custom hook to interact with the User Story API endpoints.
+ */
 export function userStoryApi() {
     const { authFetch } = useApi();
 

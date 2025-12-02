@@ -1,5 +1,8 @@
 import { useApi } from "./api";
 
+/**
+ * Custom hook to interact with the Task API endpoints.
+ */
 export const taskApi = () => {
     const { authFetch } = useApi();
 

@@ -2,6 +2,11 @@ import { useAuth } from '../context/AuthContext.jsx';
 
 export const API_BASE_URL = '/api';
 
+
+/** 
+ * Custom hook to perform authenticated API requests.
+ * Automatically includes the JWT token in the Authorization header.
+ */
 export function useApi() {
   const { token } = useAuth();
 

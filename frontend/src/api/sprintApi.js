@@ -1,5 +1,8 @@
 import { useApi } from "./api";
 
+/**
+ * Custom hook to interact with the Sprint API endpoints.
+ */
 export const sprintApi = () => {
     const { authFetch } = useApi();
 
