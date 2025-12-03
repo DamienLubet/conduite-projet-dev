@@ -77,7 +77,8 @@ export default function Register() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+              required
+              minLength={8}
           />
         </label>
         {error && <p className="auth-error">{error}</p>}

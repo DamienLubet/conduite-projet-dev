@@ -24,7 +24,7 @@ import { getUserByIdentifier } from "../services/userService.js";
  */
 export const addProjectMember = async (req, res) => {
     try {
-        const { email, username } = req.body;
+        const { email, username, role } = req.body;
         const identifier = email || username;
 
         const user = await getUserByIdentifier(identifier);
@@ -38,7 +38,7 @@ export const addProjectMember = async (req, res) => {
             return res.status(400).json({ success: false, message: 'User is already a member of the project.' });
         }
 
-        project.members.push({ userID: user._id });
+        project.members.push({ userID: user._id, role });
         await project.save();
         return res.status(200).json({ success: true, message: 'Member added successfully.' });
     } catch (error) {

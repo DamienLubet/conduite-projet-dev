@@ -72,7 +72,7 @@ export default function TaskForm({
             {error && <p className="error-text">{error}</p>}
             
             <div className="form-group">
-                <label htmlFor="task-title">Title *</label>
+                <label htmlFor="task-title">Title</label>
                 <input
                     id="task-title"
                     type="text"

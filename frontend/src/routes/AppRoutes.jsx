@@ -37,8 +37,10 @@ export default function AppRoutes() {
         element={
           !user ? (
             <div className="home">
-              <h2>Welcome to the project management app</h2>
-              <p>Please log in or sign up to manage your projects.</p>
+              <div className="home-box">
+                <h2>Welcome to the project management app</h2>
+                <p>Please log in or sign up to manage your projects.</p>
+              </div>
             </div>
           ) : (
             <Navigate to="/projects" replace />

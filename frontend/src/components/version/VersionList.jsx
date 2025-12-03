@@ -63,7 +63,6 @@ export default function VersionList() {
                     onUpdated={() => {
                         closeModal();
                         fetchVersions();
-                        console.log('Version updated, refreshed list.');
                     }}
                     onCancel={() => {
                         closeModal();

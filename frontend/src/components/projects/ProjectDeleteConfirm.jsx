@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { projectApi } from "../../api/projectApi";
 import DeleteConfirmModal from "../common/DeleteConfirmModal.jsx";
 
@@ -14,7 +13,6 @@ import DeleteConfirmModal from "../common/DeleteConfirmModal.jsx";
  */
 export default function ProjectDeleteConfirm({ project, onDeleted, onCancel }) {
   const { deleteProject } = projectApi();
-  const [error, setError] = useState(null);
 
   /**
    * Handles the deletion of the project.
@@ -22,16 +20,10 @@ export default function ProjectDeleteConfirm({ project, onDeleted, onCancel }) {
    * @return {Promise<void>}
    */
   const handleDelete = async () => {
-    if (!project || !project._id) return;
-    try {
-      setError(null);
       await deleteProject(project._id);
       if (onDeleted) {
         onDeleted();
       }
-    } catch (err) {
-      setError(err.message || 'An error occurred while deleting the project.');
-    }
   };
 
   if (!project) return null;

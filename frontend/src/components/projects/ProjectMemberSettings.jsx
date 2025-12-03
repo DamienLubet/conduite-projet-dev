@@ -33,8 +33,8 @@ export default function ProjectMemberSettings({ project, setProject }) {
     try {
       setMemberError('');
       const payload = inviteIdentifier.includes('@')
-        ? { email: inviteIdentifier.trim(), newRole: inviteRole }
-        : { username: inviteIdentifier.trim(), newRole: inviteRole };
+        ? { email: inviteIdentifier.trim(), role: inviteRole }
+        : { username: inviteIdentifier.trim(), role: inviteRole };
 
       const res = await addProjectMember(projectId, payload);
       
